@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using DSharpPlus;
 
 namespace skot_botagami
 {
@@ -6,7 +8,20 @@ namespace skot_botagami
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            MainAsync().GetAwaiter().GetResult();
+        }
+
+        static async Task MainAsync()
+        {
+            var client = new DiscordClient(new DiscordConfiguration()
+            {
+                Token = "temp",
+                TokenType = TokenType.Bot,
+                Intents = DiscordIntents.All
+            });
+
+            await client.ConnectAsync();
+            await Task.Delay(-1);
         }
     }
 }

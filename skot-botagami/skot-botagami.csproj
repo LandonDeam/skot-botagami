@@ -6,4 +6,8 @@
     <RootNamespace>skot_botagami</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="4.1.0" />
+  </ItemGroup>
+
 </Project>
