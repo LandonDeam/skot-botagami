@@ -8,7 +8,6 @@ namespace skot_botagami
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Test");
             MainAsync().GetAwaiter().GetResult();
         }
 
