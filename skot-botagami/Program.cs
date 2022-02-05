@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -36,7 +37,8 @@ namespace skot_botagami
                 .AddSingleton(_commands)
                 .BuildServiceProvider();
 
-            string token = _config["token"];
+            //string token = _config["token"];
+            string token = Environment.GetEnvironmentVariable("token");
 
             _client.Log += _client_Log;
 
