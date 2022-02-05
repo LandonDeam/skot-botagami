@@ -1,1 +1,1 @@
-worker: cd $HOME/heroku_output && ./skot-botagami
+worker: cd $HOME/heroku_output && ./skot-botagami/bin/Release/netcoreapp6.0/linux-x64/skot-botagami
