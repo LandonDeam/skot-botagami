@@ -119,6 +119,22 @@
           }
         }
       },
+      "Microsoft.Data.Sqlite.Core/6.0.7": {
+        "type": "package",
+        "dependencies": {
+          "SQLitePCLRaw.core": "2.0.6"
+        },
+        "compile": {
+          "lib/net6.0/Microsoft.Data.Sqlite.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Data.Sqlite.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.Extensions.Configuration/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -339,31 +355,16 @@
           }
         }
       },
-      "SQLite/3.13.0": {
+      "SQLitePCLRaw.core/2.0.6": {
         "type": "package",
+        "dependencies": {
+          "System.Memory": "4.5.3"
+        },
         "compile": {
-          "lib/netstandard1.0/_._": {}
+          "lib/netstandard2.0/SQLitePCLRaw.core.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.0/_._": {}
-        },
-        "runtimeTargets": {
-          "runtimes/linux-x64/native/libsqlite3.so": {
-            "assetType": "native",
-            "rid": "linux-x64"
-          },
-          "runtimes/osx-x64/native/libsqlite3.dylib": {
-            "assetType": "native",
-            "rid": "osx-x64"
-          },
-          "runtimes/win7-x64/native/sqlite3.dll": {
-            "assetType": "native",
-            "rid": "win7-x64"
-          },
-          "runtimes/win7-x86/native/sqlite3.dll": {
-            "assetType": "native",
-            "rid": "win7-x86"
-          }
+          "lib/netstandard2.0/SQLitePCLRaw.core.dll": {}
         }
       },
       "System.Collections.Immutable/5.0.0": {
@@ -406,6 +407,15 @@
           "lib/netcoreapp3.1/System.Linq.Async.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "System.Memory/4.5.3": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.1/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.1/_._": {}
         }
       },
       "System.Reactive/5.0.0": {
@@ -636,6 +646,22 @@
         "lib/netstandard2.0/Discord.Net.WebSocket.xml",
         "lib/netstandard2.1/Discord.Net.WebSocket.dll",
         "lib/netstandard2.1/Discord.Net.WebSocket.xml"
+      ]
+    },
+    "Microsoft.Data.Sqlite.Core/6.0.7": {
+      "sha512": "lB8T+Y/5pMDBf13dGnrQvZ9rfkZrvRY82FgVElWGIuIF3yFwYLR6475U4/IM+TNLPSk8SvTFBqdLN3gOm3suOQ==",
+      "type": "package",
+      "path": "microsoft.data.sqlite.core/6.0.7",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/net6.0/Microsoft.Data.Sqlite.dll",
+        "lib/net6.0/Microsoft.Data.Sqlite.xml",
+        "lib/netstandard2.0/Microsoft.Data.Sqlite.dll",
+        "lib/netstandard2.0/Microsoft.Data.Sqlite.xml",
+        "microsoft.data.sqlite.core.6.0.7.nupkg.sha512",
+        "microsoft.data.sqlite.core.nuspec"
       ]
     },
     "Microsoft.Extensions.Configuration/6.0.0": {
@@ -908,25 +934,16 @@
         "packageIcon.png"
       ]
     },
-    "SQLite/3.13.0": {
-      "sha512": "MJfRiz2p6aMVOxrxGMdVzhpzI0oxTgZSwC8eVuOpV8L7yYaFUu8q/OFYwv9P0/aZ/pdEu24O6gma6wZJMTun9A==",
+    "SQLitePCLRaw.core/2.0.6": {
+      "sha512": "Vh8n0dTvwXkCGur2WqQTITvk4BUO8i8h9ucSx3wwuaej3s2S6ZC0R7vqCTf9TfS/I4QkXO6g3W2YQIRFkOcijA==",
       "type": "package",
-      "path": "sqlite/3.13.0",
+      "path": "sqlitepclraw.core/2.0.6",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "build/net45/SQLite.props",
-        "lib/netstandard1.0/_._",
-        "runtimes/linux-x64/native/libsqlite3.so",
-        "runtimes/osx-x64/native/libsqlite3.dylib",
-        "runtimes/win10-arm/nativeassets/uap10.0/sqlite3.dll",
-        "runtimes/win10-x64/nativeassets/uap10.0/sqlite3.dll",
-        "runtimes/win10-x86/nativeassets/uap10.0/sqlite3.dll",
-        "runtimes/win7-x64/native/sqlite3.dll",
-        "runtimes/win7-x86/native/sqlite3.dll",
-        "sqlite-version.txt",
-        "sqlite.3.13.0.nupkg.sha512",
-        "sqlite.nuspec"
+        "lib/netstandard2.0/SQLitePCLRaw.core.dll",
+        "sqlitepclraw.core.2.0.6.nupkg.sha512",
+        "sqlitepclraw.core.nuspec"
       ]
     },
     "System.Collections.Immutable/5.0.0": {
@@ -999,6 +1016,27 @@
         "ref/netstandard2.1/System.Linq.Async.xml",
         "system.linq.async.5.0.0.nupkg.sha512",
         "system.linq.async.nuspec"
+      ]
+    },
+    "System.Memory/4.5.3": {
+      "sha512": "3oDzvc/zzetpTKWMShs1AADwZjQ/36HnsufHRPcOjyRAAMLDlu2iD33MBI2opxnezcVUtXyqDXXjoFMOU9c7SA==",
+      "type": "package",
+      "path": "system.memory/4.5.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp2.1/_._",
+        "lib/netstandard1.1/System.Memory.dll",
+        "lib/netstandard1.1/System.Memory.xml",
+        "lib/netstandard2.0/System.Memory.dll",
+        "lib/netstandard2.0/System.Memory.xml",
+        "ref/netcoreapp2.1/_._",
+        "system.memory.4.5.3.nupkg.sha512",
+        "system.memory.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.Reactive/5.0.0": {
@@ -1184,9 +1222,9 @@
   "projectFileDependencyGroups": {
     "net7.0": [
       "Discord.Net >= 3.7.2",
+      "Microsoft.Data.Sqlite.Core >= 6.0.7",
       "Microsoft.Extensions.Configuration.UserSecrets >= 6.0.1",
-      "Microsoft.Extensions.DependencyInjection >= 6.0.0",
-      "SQLite >= 3.13.0"
+      "Microsoft.Extensions.DependencyInjection >= 6.0.0"
     ]
   },
   "packageFolders": {
@@ -1237,6 +1275,10 @@
             "target": "Package",
             "version": "[3.7.2, )"
           },
+          "Microsoft.Data.Sqlite.Core": {
+            "target": "Package",
+            "version": "[6.0.7, )"
+          },
           "Microsoft.Extensions.Configuration.UserSecrets": {
             "target": "Package",
             "version": "[6.0.1, )"
@@ -1244,10 +1286,6 @@
           "Microsoft.Extensions.DependencyInjection": {
             "target": "Package",
             "version": "[6.0.0, )"
-          },
-          "SQLite": {
-            "target": "Package",
-            "version": "[3.13.0, )"
           }
         },
         "imports": [

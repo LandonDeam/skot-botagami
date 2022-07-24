@@ -18,7 +18,7 @@ namespace skot_botagami.Modules
         [Command("blackjack")]
         public async Task BlackJack()
         {
-            
+            await ReplyAsync("WIP!");
         }
     }
 }
