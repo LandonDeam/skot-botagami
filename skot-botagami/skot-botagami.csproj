@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>skot_botagami</RootNamespace>
     <UserSecretsId>c7da8d77-dcbb-43e3-8435-efa53ec7b7f9</UserSecretsId>
     <PlatformTarget>x64</PlatformTarget>
