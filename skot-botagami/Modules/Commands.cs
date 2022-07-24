@@ -11,7 +11,14 @@ namespace skot_botagami.Modules
         [Command("ping")]
         public async Task Ping()
         {
-            ReplyAsync("Pong");
+            await ReplyAsync($"Pong! " +
+                $"{Math.Floor(DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds) - Context.Message.Timestamp.ToUnixTimeMilliseconds()}ms");
+        }
+
+        [Command("blackjack")]
+        public async Task BlackJack()
+        {
+            
         }
     }
 }

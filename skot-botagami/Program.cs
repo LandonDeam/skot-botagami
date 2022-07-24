@@ -37,8 +37,8 @@ namespace skot_botagami
                 .AddSingleton(_commands)
                 .BuildServiceProvider();
 
-            //string token = _config["token"]; // use this line instead of the one under it to run the bot locally
-            string token = Environment.GetEnvironmentVariable("token");
+            string token = _config["token"]; // use this line instead of the one under it to run the bot locally
+            //string token = Environment.GetEnvironmentVariable("token");
 
             _client.Log += _client_Log;
 
@@ -46,6 +46,10 @@ namespace skot_botagami
 
             await _client.LoginAsync(TokenType.Bot, token);
 
+            LoggingService log = new(_client, _commands);
+
+            DatabaseAPI.openDatabase();
+            
             await _client.StartAsync();
 
             await Task.Delay(-1);
@@ -66,20 +70,20 @@ namespace skot_botagami
 
         private async Task HandleCommandAsync(SocketMessage arg)
         {
-            var message = arg as SocketUserMessage;
-            var context = new SocketCommandContext(_client, message);
+            SocketUserMessage message = arg as SocketUserMessage;
+            SocketCommandContext context = new SocketCommandContext(_client, message);
             if (message.Author.IsBot) return;
 
             int argPos = 0;
             if (message.HasStringPrefix(".", ref argPos))
             {
-                var result = await _commands.ExecuteAsync(context, argPos, _services);
+                IResult result = await _commands.ExecuteAsync(context, argPos, _services);
                 if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
             }
-            else if(message.Content.Contains("188362544283516928"))
+            /*else if(message.Content.Contains("188362544283516928"))
             {
-                message.ReplyAsync("https://cdn.discordapp.com/attachments/450511755391533057/877014295693651988/madshinji.gif");
-            }
+                await message.ReplyAsync("https://cdn.discordapp.com/attachments/450511755391533057/877014295693651988/madshinji.gif");
+            }*/
         }
     }
 }

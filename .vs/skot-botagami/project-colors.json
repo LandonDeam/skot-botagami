@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "d6174ae5-8b49-4ed4-8f6a-e2bed967a0d8": {
+      "ProjectGuid": "d6174ae5-8b49-4ed4-8f6a-e2bed967a0d8",
+      "DisplayName": "skot-botagami",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 1
+}
