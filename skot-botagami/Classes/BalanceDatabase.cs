@@ -33,36 +33,48 @@ public class BalanceDatabase
         isOpen = true;
     }
     
-    public void addUser(IGuildUser user, ulong balance)
+    public void addGuildUser(IGuildUser user, ulong balance)
     {
         // Add user to database
-        addUser(user.Id, user.GuildId, balance);
+        addGuildUser(user.Id, user.GuildId, balance);
     }
 
-    public void addUser(IGuildUser user)
+    public void addGuildUser(ulong userId, ulong guildId, ulong balance)
     {
         // Add user to database
-        addUser(user.Id, user.GuildId);
+        addGuildUser(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId), Funcs.MapUlongToLong(balance));
     }
 
-    public void addUser(ulong userId, ulong guildId, ulong balance)
+    public void addGuildUser(long userId, long guildId, long balance)
     {
         // Check that database is open
         if (!isOpen) openDatabase();
         // Add user to database
-        var addUserCmd = _connection.CreateCommand();
-        addUserCmd.CommandText = $@"INSERT INTO balances VALUES ({userId},{guildId},{balance});";
-        addUserCmd.ExecuteNonQuery();
+        var addGuildUserCmd = _connection.CreateCommand();
+        addGuildUserCmd.CommandText = $@"INSERT INTO balances VALUES ({userId},{guildId},{balance});";
+        addGuildUserCmd.ExecuteNonQuery();
     }
 
-    public void addUser(ulong userId, ulong guildId)
+    public void addGuildUser(IGuildUser user)
+    {
+        // Add user to database
+        addGuildUser(user.Id, user.GuildId);
+    }
+
+    public void addGuildUser(ulong userId, ulong guildId)
+    {
+        // Add user to database
+        addGuildUser(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
+    }
+
+    public void addGuildUser(long userId, long guildId)
     {
         // Check that database is open
         if (!isOpen) openDatabase();
         // Add user to database
-        var addUserCmd = _connection.CreateCommand();
-        addUserCmd.CommandText = $@"INSERT INTO balances (userId, guildId) VALUES ({userId},{guildId});";
-        addUserCmd.ExecuteNonQuery();
+        var addGuildUserCmd = _connection.CreateCommand();
+        addGuildUserCmd.CommandText = $@"INSERT INTO balances (userId, guildId) VALUES ({userId},{guildId});";
+        addGuildUserCmd.ExecuteNonQuery();
     }
 
     public GuildUser getUser(IGuildUser user)
@@ -71,10 +83,24 @@ public class BalanceDatabase
         throw new NotImplementedException();
     }
 
-    public static ulong getUserBalance(IGuildUser user)
+    public ulong getUserBalance(IGuildUser user)
     {
         // Gets a users balance
-        throw new NotImplementedException();
+        return getUserBalance(user.Id, user.GuildId);
+    }
+
+    public ulong getUserBalance(ulong userId, ulong guildId)
+    {
+        // Gets a users balance
+        return getUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
+    }
+
+    public ulong getUserBalance(long userId, long guildId)
+    {
+        // Gets a users balance
+        var selectCmd = _connection.CreateCommand();
+        selectCmd.CommandText = $@"SELECT balance FROM balance WHERE userId = {userId} AND guildId = {guildId};";
+        return Funcs.MapLongToUlong(selectCmd.ExecuteReader().GetInt64(0));
     }
 
     public void removeGuildUser(IGuildUser user)
@@ -85,6 +111,12 @@ public class BalanceDatabase
 
     public void removeGuildUser(ulong userId, ulong guildId)
     {
+        // Remove guild user from database
+        removeGuildUser(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
+    }
+
+    public void removeGuildUser(long userId, long guildId)
+    {
         // Check that database is open
         if (!isOpen) openDatabase();
         // Remove guild user from database
@@ -93,7 +125,19 @@ public class BalanceDatabase
         delGuildUserCmd.ExecuteNonQuery();
     }
 
+    public void removeUser(IUser user)
+    {
+        // Remove user from database
+        removeUser(user.Id);
+    }
+
     public void removeUser(ulong userId)
+    {
+        // Remove user from database
+        removeUser(Funcs.MapUlongToLong(userId));
+    }
+
+    public void removeUser(long userId)
     {
         // Check that database is open
         if (!isOpen) openDatabase();
