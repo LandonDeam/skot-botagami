@@ -47,8 +47,6 @@ namespace skot_botagami
             await _client.LoginAsync(TokenType.Bot, token);
 
             LoggingService log = new(_client, _commands);
-
-            DatabaseAPI.openDatabase();
             
             await _client.StartAsync();
 

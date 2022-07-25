@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # Backup files
 *.bak
+
+# Database files
+*.db
