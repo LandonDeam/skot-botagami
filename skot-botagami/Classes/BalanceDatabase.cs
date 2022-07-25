@@ -83,26 +83,6 @@ public class BalanceDatabase
         throw new NotImplementedException();
     }
 
-    public ulong getUserBalance(IGuildUser user)
-    {
-        // Gets a users balance
-        return getUserBalance(user.Id, user.GuildId);
-    }
-
-    public ulong getUserBalance(ulong userId, ulong guildId)
-    {
-        // Gets a users balance
-        return getUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
-    }
-
-    public ulong getUserBalance(long userId, long guildId)
-    {
-        // Gets a users balance
-        var selectCmd = _connection.CreateCommand();
-        selectCmd.CommandText = $@"SELECT balance FROM balance WHERE userId = {userId} AND guildId = {guildId};";
-        return Funcs.MapLongToUlong(selectCmd.ExecuteReader().GetInt64(0));
-    }
-
     public void removeGuildUser(IGuildUser user)
     {
         // Remove guild user from database
@@ -145,5 +125,54 @@ public class BalanceDatabase
         var delUserCmd = _connection.CreateCommand();
         delUserCmd.CommandText = $@"DELETE FROM balances WHERE userId = {userId};";
         delUserCmd.ExecuteNonQuery();
+    }
+
+    public ulong getUserBalance(IGuildUser user)
+    {
+        // Gets a users balance
+        return getUserBalance(user.Id, user.GuildId);
+    }
+
+    public ulong getUserBalance(ulong userId, ulong guildId)
+    {
+        // Gets a users balance
+        return getUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
+    }
+
+    public ulong getUserBalance(long userId, long guildId)
+    {
+        // Gets a users balance
+        var selectCmd = _connection.CreateCommand();
+        selectCmd.CommandText = $@"SELECT balance FROM balance WHERE userId = {userId} AND guildId = {guildId};";
+        return Funcs.MapLongToUlong(selectCmd.ExecuteReader().GetInt64(0));
+    }
+
+    public void setGuildUserBalance(IGuildUser user, ulong balance)
+    {
+        // Set a users balance
+        setGuildUserBalance(user.Id, user.GuildId, balance);
+    }
+
+    public void setGuildUserBalance(ulong userId, ulong guildId, ulong balance)
+    {
+        // Set a users balance
+        setGuildUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId), Funcs.MapUlongToLong(balance));
+    }
+
+    public void setGuildUserBalance(long userId, long guildId, long balance)
+    {
+        // Check that database is open
+        if (!isOpen) openDatabase();
+        // Set a users balance
+        var setGuildUserBalanceCmd = _connection.CreateCommand();
+        setGuildUserBalanceCmd.CommandText = $@"UPDATE balances SET balance = {balance} WHERE userId = {userId} AND guildId = {guildId};";
+        setGuildUserBalanceCmd.ExecuteNonQuery();
+    }
+
+    public void closeDatabase()
+    {
+        // Closes the database
+        _connection.Close();
+        isOpen = false;
     }
 }
