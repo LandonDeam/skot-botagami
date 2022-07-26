@@ -14,7 +14,7 @@ public class GuildUser : IGuildUser
         // Initialize IGuildUser interface
         baseUser = user;
 
-        balance = BalanceManager.getBalance(user);
+        balance = BalanceManager.getGuildUserBalance(user);
     }
 
     ulong balance;
