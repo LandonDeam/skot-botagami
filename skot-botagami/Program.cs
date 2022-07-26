@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace skot_botagami
 {
@@ -20,22 +18,11 @@ namespace skot_botagami
         private DiscordSocketClient _client;
         private CommandService _commands;
         private IServiceProvider _services;
-        private IConfiguration _config;
 
         public async Task RunBotAsync()
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddUserSecrets<Program>();
-
-            _config = builder.Build();
             _client = new DiscordSocketClient();
             _commands = new CommandService();
-
-            _services = new ServiceCollection()
-                .AddSingleton(_client)
-                .AddSingleton(_commands)
-                .BuildServiceProvider();
 
             //string token = _config["token"]; // use this line instead of the one under it to run the bot locally
             string token = Environment.GetEnvironmentVariable("token");
