@@ -37,8 +37,8 @@ namespace skot_botagami
                 .AddSingleton(_commands)
                 .BuildServiceProvider();
 
-            string token = _config["token"]; // use this line instead of the one under it to run the bot locally
-            //string token = Environment.GetEnvironmentVariable("token");
+            //string token = _config["token"]; // use this line instead of the one under it to run the bot locally
+            string token = Environment.GetEnvironmentVariable("token");
 
             _client.Log += _client_Log;
 
