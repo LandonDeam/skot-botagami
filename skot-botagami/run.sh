@@ -1,6 +1,6 @@
 ﻿#!/bin/bash
 
-git pull upstream main
+git pull
 
 dotnet build
 
