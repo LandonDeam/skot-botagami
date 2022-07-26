@@ -77,12 +77,6 @@ public class BalanceDatabase
         addGuildUserCmd.ExecuteNonQuery();
     }
 
-    public GuildUser getUser(IGuildUser user)
-    {
-        // Gets user from database
-        throw new NotImplementedException();
-    }
-
     public void removeGuildUser(IGuildUser user)
     {
         // Remove guild user from database
@@ -127,19 +121,19 @@ public class BalanceDatabase
         delUserCmd.ExecuteNonQuery();
     }
 
-    public ulong getUserBalance(IGuildUser user)
+    public ulong getGuildUserBalance(IGuildUser user)
     {
         // Gets a users balance
-        return getUserBalance(user.Id, user.GuildId);
+        return getGuildUserBalance(user.Id, user.GuildId);
     }
 
-    public ulong getUserBalance(ulong userId, ulong guildId)
+    public ulong getGuildUserBalance(ulong userId, ulong guildId)
     {
         // Gets a users balance
-        return getUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
+        return getGuildUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
     }
 
-    public ulong getUserBalance(long userId, long guildId)
+    public ulong getGuildUserBalance(long userId, long guildId)
     {
         // Gets a users balance
         var selectCmd = _connection.CreateCommand();
