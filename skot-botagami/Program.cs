@@ -25,7 +25,7 @@ namespace skot_botagami
             _commands = new CommandService();
 
             //string token = _config["token"]; // use this line instead of the one under it to run the bot locally
-            string token = Environment.GetEnvironmentVariable("token");
+            string token = Environment.GetEnvironmentVariable("TOKEN");
 
             _client.Log += _client_Log;
 
