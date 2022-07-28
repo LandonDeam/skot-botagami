@@ -85,7 +85,7 @@ public class Blackjack
 
     public string playerHand()
     {
-        string temp = $"Player ({playerHandValue}): ";
+        string temp = $"Player ({playerHandValue()}): ";
         foreach (Card card in player)
         {
             temp += card.ToString() + " ";
