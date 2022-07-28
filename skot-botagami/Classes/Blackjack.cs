@@ -1,9 +1,16 @@
-﻿using System;
+﻿// <copyright file="Blackjack.cs" company="Landon Deam">
+// Copyright (c) Landon Deam. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Class used for creating and utilizing a deck of cards to play blackjack.
+/// </summary>
 public class Blackjack
 {
     private List<Card> player;
@@ -11,85 +18,140 @@ public class Blackjack
     private Card dealerFirst;
     private Deck deck;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Blackjack"/> class.
+    /// </summary>
     public Blackjack()
     {
-        player = new List<Card>();
-        dealer = new List<Card>();
-        deck = new Deck("blackjack");
-        deck.shuffle();
+        this.player = new List<Card>();
+        this.dealer = new List<Card>();
+        this.deck = new Deck("blackjack");
+        this.deck.Shuffle();
     }
 
-    public void deal()
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Blackjack"/> class.
+    /// </summary>
+    public void Deal()
     {
-        player.Add(deck.draw());
-        dealerFirst = deck.draw();
-        dealer.Add(dealerFirst);
-        player.Add(deck.draw());
-        dealer.Add(deck.draw());
+        this.player.Add(this.deck.Draw());
+        this.dealerFirst = this.deck.Draw();
+        this.dealer.Add(this.dealerFirst);
+        this.player.Add(this.deck.Draw());
+        this.dealer.Add(this.deck.Draw());
     }
 
-    public void playerHit()
+    /// <summary>
+    /// Command to hit the player.
+    /// </summary>
+    public void PlayerHit()
     {
-        player.Add(deck.draw());
+        this.player.Add(this.deck.Draw());
     }
 
-    public void dealerHit()
+    /// <summary>
+    /// Command to hit the dealer.
+    /// </summary>
+    public void DealerHit()
     {
-        dealer.Add(deck.draw());
+        this.dealer.Add(this.deck.Draw());
     }
 
-    public void playerStand()
+    /// <summary>
+    /// Command to let the player stand.
+    /// </summary>
+    public void PlayerStand()
     {
-        while (dealerHandValue() < 21 && (dealerHandValue() < playerHandValue() || (dealerHandValue == playerHandValue && dealerHandValue() < 12)))
+        while (this.DealerHandValue() < 21 &&
+            (this.DealerHandValue() < this.PlayerHandValue() ||
+            (this.DealerHandValue() == this.PlayerHandValue() && this.DealerHandValue() < 12)))
         {
-            dealerHit();
+            this.DealerHit();
         }
     }
 
-    private int getHandValue(List<Card> hand)
+    /// <summary>
+    /// Gets the value of the player's hand.
+    /// </summary>
+    /// <returns>Blackjack value of the player's hand.</returns>
+    public int PlayerHandValue()
+    {
+        return GetHandValue(this.player);
+    }
+
+    /// <summary>
+    /// Gets the value of the dealer's hand.
+    /// </summary>
+    /// <returns>Blackjack value of the dealer's hand.</returns>
+    public int DealerHandValue()
+    {
+        return GetHandValue(this.dealer);
+    }
+
+    /// <summary>
+    /// Gets the first card of the dealer's hand.
+    /// </summary>
+    /// <returns>First card of the dealer's hand.</returns>
+    public string GetDealerFirst()
+    {
+        return this.dealerFirst.ToString();
+    }
+
+    /// <summary>
+    /// Gets the dealer's hand.
+    /// </summary>
+    /// <returns>The dealer's hand.</returns>
+    public string DealerHand()
+    {
+        string temp = string.Empty;
+        foreach (Card card in this.dealer)
+        {
+            temp += card.ToString() + ", ";
+        }
+
+        return temp.Substring(0, temp.Length - 2);
+    }
+
+    /// <summary>
+    /// Gets the player's hand.
+    /// </summary>
+    /// <returns>The player's hand.</returns>
+    public string PlayerHand()
+    {
+        string temp = string.Empty;
+        foreach (Card card in this.player)
+        {
+            temp += card.ToString() + ", ";
+        }
+
+        return temp.Substring(0, temp.Length - 2);
+    }
+
+    /// <summary>
+    /// Gets the value of a given hand.
+    /// </summary>
+    /// <param name="hand">Hand to evaluate.</param>
+    /// <returns>Blackjack value of the given hand.</returns>
+    private static int GetHandValue(List<Card> hand)
     {
         int value = 0;
         foreach (Card card in hand)
         {
-            if (card.getValue() > 10) value += 10;
-            else value += card.getValue();
+            if (card.GetValue() > 10)
+            {
+                value += 10;
+            }
+            else
+            {
+                value += card.GetValue();
+            }
         }
-        if (value < 12 && hand.Any(x => x.getValue() == 1)) value += 10;
+
+        if (value < 12 && hand.Any(x => x.GetValue() == 1))
+        {
+            value += 10;
+        }
+
         return value;
-    }
-
-    public int playerHandValue()
-    {
-        return getHandValue(player);
-    }
-
-    public int dealerHandValue()
-    {
-        return getHandValue(dealer);
-    }
-
-    public string getDealerFirst()
-    {
-        return dealerFirst.ToString();
-    }
-
-    public string dealerHand()
-    {
-        string temp = "";
-        foreach (Card card in dealer)
-        {
-            temp += card.ToString() + ", ";
-        }
-        return temp.Substring(0, temp.Length - 2);
-    }
-
-    public string playerHand()
-    {
-        string temp = "";
-        foreach (Card card in player)
-        {
-            temp += card.ToString() + ", ";
-        }
-        return temp.Substring(0, temp.Length - 2);
     }
 }

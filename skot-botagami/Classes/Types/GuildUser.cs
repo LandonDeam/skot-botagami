@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="GuildUser.cs" company="Landon Deam">
+// Copyright (c) Landon Deam. All rights reserved.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,181 +10,241 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 
+/// <summary>
+/// Class used for extending off of the IGuildUser class for personal use.
+/// </summary>
 public class GuildUser : IGuildUser
 {
     private IGuildUser baseUser;
+    private ulong balance;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GuildUser"/> class.
+    /// </summary>
+    /// <param name="user">The guild user to use for constructing the object.</param>
     public GuildUser(IGuildUser user)
     {
         // Initialize IGuildUser interface
-        baseUser = user;
+        this.baseUser = user;
 
-        balance = BalanceManager.getGuildUserBalance(user);
+        this.balance = BalanceManager.GetGuildUserBalance(user);
     }
 
-    ulong balance;
-
-    //
     // Implementation of the base IGuildUser interface
-    //
-    public DateTimeOffset? JoinedAt => baseUser.JoinedAt;
 
-    public string DisplayName => baseUser.DisplayName;
+    /// <inheritdoc/>
+    public DateTimeOffset? JoinedAt => this.baseUser.JoinedAt;
 
-    public string Nickname => baseUser.Nickname;
+    /// <inheritdoc/>
+    public string DisplayName => this.baseUser.DisplayName;
 
-    public string DisplayAvatarId => baseUser.DisplayAvatarId;
+    /// <inheritdoc/>
+    public string Nickname => this.baseUser.Nickname;
 
-    public string GuildAvatarId => baseUser.GuildAvatarId;
+    /// <inheritdoc/>
+    public string DisplayAvatarId => this.baseUser.DisplayAvatarId;
 
-    public GuildPermissions GuildPermissions => baseUser.GuildPermissions;
+    /// <inheritdoc/>
+    public string GuildAvatarId => this.baseUser.GuildAvatarId;
 
-    public IGuild Guild => baseUser.Guild;
+    /// <inheritdoc/>
+    public GuildPermissions GuildPermissions => this.baseUser.GuildPermissions;
 
-    public ulong GuildId => baseUser.GuildId;
+    /// <inheritdoc/>
+    public IGuild Guild => this.baseUser.Guild;
 
-    public DateTimeOffset? PremiumSince => baseUser.PremiumSince;
+    /// <inheritdoc/>
+    public ulong GuildId => this.baseUser.GuildId;
 
-    public IReadOnlyCollection<ulong> RoleIds => baseUser.RoleIds;
+    /// <inheritdoc/>
+    public DateTimeOffset? PremiumSince => this.baseUser.PremiumSince;
 
-    public bool? IsPending => baseUser.IsPending;
+    /// <inheritdoc/>
+    public IReadOnlyCollection<ulong> RoleIds => this.baseUser.RoleIds;
 
-    public int Hierarchy => baseUser.Hierarchy;
+    /// <inheritdoc/>
+    public bool? IsPending => this.baseUser.IsPending;
 
-    public DateTimeOffset? TimedOutUntil => baseUser.TimedOutUntil;
+    /// <inheritdoc/>
+    public int Hierarchy => this.baseUser.Hierarchy;
 
-    public string AvatarId => baseUser.AvatarId;
+    /// <inheritdoc/>
+    public DateTimeOffset? TimedOutUntil => this.baseUser.TimedOutUntil;
 
-    public string Discriminator => baseUser.Discriminator;
+    /// <inheritdoc/>
+    public string AvatarId => this.baseUser.AvatarId;
 
-    public ushort DiscriminatorValue => baseUser.DiscriminatorValue;
+    /// <inheritdoc/>
+    public string Discriminator => this.baseUser.Discriminator;
 
-    public bool IsBot => baseUser.IsBot;
+    /// <inheritdoc/>
+    public ushort DiscriminatorValue => this.baseUser.DiscriminatorValue;
 
-    public bool IsWebhook => baseUser.IsWebhook;
+    /// <inheritdoc/>
+    public bool IsBot => this.baseUser.IsBot;
 
-    public string Username => baseUser.Username;
+    /// <inheritdoc/>
+    public bool IsWebhook => this.baseUser.IsWebhook;
 
-    public UserProperties? PublicFlags => baseUser.PublicFlags;
+    /// <inheritdoc/>
+    public string Username => this.baseUser.Username;
 
-    public DateTimeOffset CreatedAt => baseUser.CreatedAt;
+    /// <inheritdoc/>
+    public UserProperties? PublicFlags => this.baseUser.PublicFlags;
 
-    public ulong Id => baseUser.Id;
+    /// <inheritdoc/>
+    public DateTimeOffset CreatedAt => this.baseUser.CreatedAt;
 
-    public string Mention => baseUser.Mention;
+    /// <inheritdoc/>
+    public ulong Id => this.baseUser.Id;
 
-    public UserStatus Status => baseUser.Status;
+    /// <inheritdoc/>
+    public string Mention => this.baseUser.Mention;
 
-    public IReadOnlyCollection<ClientType> ActiveClients => baseUser.ActiveClients;
+    /// <inheritdoc/>
+    public UserStatus Status => this.baseUser.Status;
 
-    public IReadOnlyCollection<IActivity> Activities => baseUser.Activities;
+    /// <inheritdoc/>
+    public IReadOnlyCollection<ClientType> ActiveClients => this.baseUser.ActiveClients;
 
-    public bool IsDeafened => baseUser.IsDeafened;
+    /// <inheritdoc/>
+    public IReadOnlyCollection<IActivity> Activities => this.baseUser.Activities;
 
-    public bool IsMuted => baseUser.IsMuted;
+    /// <inheritdoc/>
+    public bool IsDeafened => this.baseUser.IsDeafened;
 
-    public bool IsSelfDeafened => baseUser.IsSelfDeafened;
+    /// <inheritdoc/>
+    public bool IsMuted => this.baseUser.IsMuted;
 
-    public bool IsSelfMuted => baseUser.IsSelfMuted;
+    /// <inheritdoc/>
+    public bool IsSelfDeafened => this.baseUser.IsSelfDeafened;
 
-    public bool IsSuppressed => baseUser.IsSuppressed;
+    /// <inheritdoc/>
+    public bool IsSelfMuted => this.baseUser.IsSelfMuted;
 
-    public IVoiceChannel VoiceChannel => baseUser.VoiceChannel;
+    /// <inheritdoc/>
+    public bool IsSuppressed => this.baseUser.IsSuppressed;
 
-    public string VoiceSessionId => baseUser.VoiceSessionId;
+    /// <inheritdoc/>
+    public IVoiceChannel VoiceChannel => this.baseUser.VoiceChannel;
 
-    public bool IsStreaming => baseUser.IsStreaming;
+    /// <inheritdoc/>
+    public string VoiceSessionId => this.baseUser.VoiceSessionId;
 
-    public bool IsVideoing => baseUser.IsVideoing;
+    /// <inheritdoc/>
+    public bool IsStreaming => this.baseUser.IsStreaming;
 
-    public DateTimeOffset? RequestToSpeakTimestamp => baseUser.RequestToSpeakTimestamp;
+    /// <inheritdoc/>
+    public bool IsVideoing => this.baseUser.IsVideoing;
 
+    /// <inheritdoc/>
+    public DateTimeOffset? RequestToSpeakTimestamp => this.baseUser.RequestToSpeakTimestamp;
+
+    /// <inheritdoc/>
     public Task AddRoleAsync(ulong roleId, RequestOptions options = null)
     {
-        return baseUser.AddRoleAsync(roleId, options);
+        return this.baseUser.AddRoleAsync(roleId, options);
     }
 
+    /// <inheritdoc/>
     public Task AddRoleAsync(IRole role, RequestOptions options = null)
     {
-        return baseUser.AddRoleAsync(role, options);
+        return this.baseUser.AddRoleAsync(role, options);
     }
 
+    /// <inheritdoc/>
     public Task AddRolesAsync(IEnumerable<ulong> roleIds, RequestOptions options = null)
     {
-        return baseUser.AddRolesAsync(roleIds, options);
+        return this.baseUser.AddRolesAsync(roleIds, options);
     }
 
+    /// <inheritdoc/>
     public Task AddRolesAsync(IEnumerable<IRole> roles, RequestOptions options = null)
     {
-        return baseUser.AddRolesAsync(roles, options);
+        return this.baseUser.AddRolesAsync(roles, options);
     }
 
+    /// <inheritdoc/>
     public Task<IDMChannel> CreateDMChannelAsync(RequestOptions options = null)
     {
-        return baseUser.CreateDMChannelAsync(options);
+        return this.baseUser.CreateDMChannelAsync(options);
     }
 
+    /// <inheritdoc/>
     public string GetAvatarUrl(ImageFormat format = ImageFormat.Auto, ushort size = 128)
     {
-        return baseUser.GetAvatarUrl(format, size);
+        return this.baseUser.GetAvatarUrl(format, size);
     }
 
+    /// <inheritdoc/>
     public string GetDefaultAvatarUrl()
     {
-        return baseUser.GetDefaultAvatarUrl();
+        return this.baseUser.GetDefaultAvatarUrl();
     }
 
+    /// <inheritdoc/>
     public string GetDisplayAvatarUrl(ImageFormat format = ImageFormat.Auto, ushort size = 128)
     {
-        return baseUser.GetDisplayAvatarUrl(format, size);
+        return this.baseUser.GetDisplayAvatarUrl(format, size);
     }
 
+    /// <inheritdoc/>
     public string GetGuildAvatarUrl(ImageFormat format = ImageFormat.Auto, ushort size = 128)
     {
-        return baseUser.GetGuildAvatarUrl(format, size);
+        return this.baseUser.GetGuildAvatarUrl(format, size);
     }
 
+    /// <inheritdoc/>
     public ChannelPermissions GetPermissions(IGuildChannel channel)
     {
-        return baseUser.GetPermissions(channel);
+        return this.baseUser.GetPermissions(channel);
     }
 
+    /// <inheritdoc/>
     public Task KickAsync(string reason = null, RequestOptions options = null)
     {
-        return baseUser.KickAsync(reason, options);
+        return this.baseUser.KickAsync(reason, options);
     }
 
+    /// <inheritdoc/>
     public Task ModifyAsync(Action<GuildUserProperties> func, RequestOptions options = null)
     {
-        return baseUser.ModifyAsync(func, options);
+        return this.baseUser.ModifyAsync(func, options);
     }
 
+    /// <inheritdoc/>
     public Task RemoveRoleAsync(ulong roleId, RequestOptions options = null)
     {
-        return baseUser.RemoveRoleAsync(roleId, options);
+        return this.baseUser.RemoveRoleAsync(roleId, options);
     }
 
+    /// <inheritdoc/>
     public Task RemoveRoleAsync(IRole role, RequestOptions options = null)
     {
-        return baseUser.RemoveRoleAsync(role, options);
+        return this.baseUser.RemoveRoleAsync(role, options);
     }
 
+    /// <inheritdoc/>
     public Task RemoveRolesAsync(IEnumerable<ulong> roleIds, RequestOptions options = null)
     {
-        return baseUser.RemoveRolesAsync(roleIds, options);
+        return this.baseUser.RemoveRolesAsync(roleIds, options);
     }
 
+    /// <inheritdoc/>
     public Task RemoveRolesAsync(IEnumerable<IRole> roles, RequestOptions options = null)
     {
-        return baseUser.RemoveRolesAsync(roles, options);
+        return this.baseUser.RemoveRolesAsync(roles, options);
     }
 
+    /// <inheritdoc/>
     public Task RemoveTimeOutAsync(RequestOptions options = null)
     {
-        return baseUser.RemoveTimeOutAsync(options);
+        return this.baseUser.RemoveTimeOutAsync(options);
     }
 
+    /// <inheritdoc/>
     public Task SetTimeOutAsync(TimeSpan span, RequestOptions options = null)
     {
-        return baseUser.SetTimeOutAsync(span, options);
+        return this.baseUser.SetTimeOutAsync(span, options);
     }
 }

@@ -15,21 +15,21 @@ public class Card
         this.value = value;
     }
 
-    public string getSuit()
+    public string GetSuit()
     {
-        return suit;
+        return this.suit;
     }
 
-    public int getValue()
+    public int GetValue()
     {
-        return value;
+        return this.value;
     }
 
-    private string getRank()
+    private string GetRank()
     {
         string temp = "ERROR: unknown";
 
-        switch (value)
+        switch (this.value)
         {
             case 1:
                 temp = "Ace";
@@ -47,7 +47,7 @@ public class Card
                 temp = "Joker";
                 break;
             default:
-                temp = value.ToString();
+                temp = this.value.ToString();
                 break;
         }
 
@@ -56,6 +56,6 @@ public class Card
 
     public override string ToString()
     {
-        return $"{getRank()} of {suit}";
+        return $"{this.GetRank()} of {this.suit}";
     }
 }

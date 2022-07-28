@@ -12,27 +12,27 @@ namespace skot_botagami.Modules
         [Command("ping")]
         public async Task Ping()
         {
-            await ReplyAsync($"Pong! " +
-                $"{Math.Floor(DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds) - Context.Message.Timestamp.ToUnixTimeMilliseconds()}ms");
+            await this.ReplyAsync($"Pong! " +
+                $"{Math.Floor(DateTime.Now.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds) - this.Context.Message.Timestamp.ToUnixTimeMilliseconds()}ms");
         }
 
         [Command("blackjack")]
         public async Task BlackJack()
         {
             Blackjack game = new Blackjack();
-            game.deal();
+            game.Deal();
             EmbedBuilder embed = new EmbedBuilder();
-            embed.AddField($"Dealer face up", game.getDealerFirst())
-                .AddField($"Player hand ({game.playerHandValue()})", game.playerHand())
+            embed.AddField($"Dealer face up", game.GetDealerFirst())
+                .AddField($"Player hand ({game.PlayerHandValue()})", game.PlayerHand())
                 .WithColor(Color.Blue)
                 .WithAuthor(author: new EmbedAuthorBuilder
                 {
-                    Name = $"{Context.Message.Author.Username} - Blackjack",
-                    IconUrl = Context.Message.Author.GetAvatarUrl()
+                    Name = $"{this.Context.Message.Author.Username} - Blackjack",
+                    IconUrl = this.Context.Message.Author.GetAvatarUrl()
                 });
             Emoji hit = new Emoji(":HIT:1002084815023124541");
             Emoji stand = new Emoji(":STAND:1002085670594035772");
-            IMessage msg = await Context.Channel.SendMessageAsync(embed: embed.Build());
+            IMessage msg = await this.Context.Channel.SendMessageAsync(embed: embed.Build());
             await msg.AddReactionAsync(hit);
             await msg.AddReactionAsync(stand);
 
