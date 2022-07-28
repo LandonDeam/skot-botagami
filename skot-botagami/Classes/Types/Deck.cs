@@ -12,7 +12,7 @@ public class Deck
         cards = new List<Card>();
     }
 
-    public Deck(string game)
+    public Deck(string game) : this()
     {
         switch(game)
         {
@@ -27,7 +27,7 @@ public class Deck
 
     public void noJokersSingle()
     {
-        for (int i = 1; i < 13; i++)
+        for (int i = 0; i < 13; i++)
         {
             cards.Add(new Card("Clubs", i + 1));
             cards.Add(new Card("Diamonds", i + 1));
