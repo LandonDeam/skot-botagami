@@ -7,7 +7,7 @@ using Discord;
 
 public class BalanceManager
 {
-    public static BalanceDatabase _balanceDatabase;
+    private static BalanceDatabase _balanceDatabase;
 
     public static BalanceDatabase openDatabase()
     {
@@ -50,5 +50,17 @@ public class BalanceManager
     {
         if (_balanceDatabase == null) openDatabase();
         setGuildUserBalance(user, checked(getGuildUserBalance(user) - diff));
+    }
+
+    public static bool guildUserExists(IGuildUser user)
+    {
+        if (_balanceDatabase == null) openDatabase();
+        return _balanceDatabase.guildUserExists(user);
+    }
+
+    public static void closeDatabase()
+    {
+        if (_balanceDatabase == null) openDatabase();
+        _balanceDatabase.closeDatabase();
     }
 }

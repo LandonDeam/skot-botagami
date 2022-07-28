@@ -11,7 +11,7 @@ public class BalanceDatabase
 {
     private SqliteConnection _connection;
     private bool isOpen = false;
-    public void openDatabase()
+    internal void openDatabase()
     {
         // Opens the database for use
         var connectionStringBuilder = new SqliteConnectionStringBuilder();
@@ -33,19 +33,19 @@ public class BalanceDatabase
         isOpen = true;
     }
     
-    public void addGuildUser(IGuildUser user, ulong balance)
+    internal void addGuildUser(IGuildUser user, ulong balance)
     {
         // Add user to database
         addGuildUser(user.Id, user.GuildId, balance);
     }
 
-    public void addGuildUser(ulong userId, ulong guildId, ulong balance)
+    internal void addGuildUser(ulong userId, ulong guildId, ulong balance)
     {
         // Add user to database
         addGuildUser(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId), Funcs.MapUlongToLong(balance));
     }
 
-    public void addGuildUser(long userId, long guildId, long balance)
+    internal void addGuildUser(long userId, long guildId, long balance)
     {
         // Check that database is open
         if (!isOpen) openDatabase();
@@ -55,19 +55,19 @@ public class BalanceDatabase
         addGuildUserCmd.ExecuteNonQuery();
     }
 
-    public void addGuildUser(IGuildUser user)
+    internal void addGuildUser(IGuildUser user)
     {
         // Add user to database
         addGuildUser(user.Id, user.GuildId);
     }
 
-    public void addGuildUser(ulong userId, ulong guildId)
+    internal void addGuildUser(ulong userId, ulong guildId)
     {
         // Add user to database
         addGuildUser(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
     }
 
-    public void addGuildUser(long userId, long guildId)
+    internal void addGuildUser(long userId, long guildId)
     {
         // Check that database is open
         if (!isOpen) openDatabase();
@@ -77,19 +77,19 @@ public class BalanceDatabase
         addGuildUserCmd.ExecuteNonQuery();
     }
 
-    public void removeGuildUser(IGuildUser user)
+    internal void removeGuildUser(IGuildUser user)
     {
         // Remove guild user from database
         removeGuildUser(user.Id, user.GuildId);
     }
 
-    public void removeGuildUser(ulong userId, ulong guildId)
+    internal void removeGuildUser(ulong userId, ulong guildId)
     {
         // Remove guild user from database
         removeGuildUser(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
     }
 
-    public void removeGuildUser(long userId, long guildId)
+    internal void removeGuildUser(long userId, long guildId)
     {
         // Check that database is open
         if (!isOpen) openDatabase();
@@ -99,19 +99,19 @@ public class BalanceDatabase
         delGuildUserCmd.ExecuteNonQuery();
     }
 
-    public void removeUser(IUser user)
+    internal void removeUser(IUser user)
     {
         // Remove user from database
         removeUser(user.Id);
     }
 
-    public void removeUser(ulong userId)
+    internal void removeUser(ulong userId)
     {
         // Remove user from database
         removeUser(Funcs.MapUlongToLong(userId));
     }
 
-    public void removeUser(long userId)
+    internal void removeUser(long userId)
     {
         // Check that database is open
         if (!isOpen) openDatabase();
@@ -121,19 +121,19 @@ public class BalanceDatabase
         delUserCmd.ExecuteNonQuery();
     }
 
-    public ulong getGuildUserBalance(IGuildUser user)
+    internal ulong getGuildUserBalance(IGuildUser user)
     {
         // Gets a users balance
         return getGuildUserBalance(user.Id, user.GuildId);
     }
 
-    public ulong getGuildUserBalance(ulong userId, ulong guildId)
+    internal ulong getGuildUserBalance(ulong userId, ulong guildId)
     {
         // Gets a users balance
         return getGuildUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
     }
 
-    public ulong getGuildUserBalance(long userId, long guildId)
+    internal ulong getGuildUserBalance(long userId, long guildId)
     {
         // Gets a users balance
         var selectCmd = _connection.CreateCommand();
@@ -141,19 +141,19 @@ public class BalanceDatabase
         return Funcs.MapLongToUlong(selectCmd.ExecuteReader().GetInt64(0));
     }
 
-    public void setGuildUserBalance(IGuildUser user, ulong balance)
+    internal void setGuildUserBalance(IGuildUser user, ulong balance)
     {
         // Set a users balance
         setGuildUserBalance(user.Id, user.GuildId, balance);
     }
 
-    public void setGuildUserBalance(ulong userId, ulong guildId, ulong balance)
+    internal void setGuildUserBalance(ulong userId, ulong guildId, ulong balance)
     {
         // Set a users balance
         setGuildUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId), Funcs.MapUlongToLong(balance));
     }
 
-    public void setGuildUserBalance(long userId, long guildId, long balance)
+    internal void setGuildUserBalance(long userId, long guildId, long balance)
     {
         // Check that database is open
         if (!isOpen) openDatabase();
@@ -163,7 +163,31 @@ public class BalanceDatabase
         setGuildUserBalanceCmd.ExecuteNonQuery();
     }
 
-    public void closeDatabase()
+    internal bool guildUserExists(IGuildUser user)
+    {
+        // Checks if a user exists in the database
+        return guildUserExists(user.Id, user.GuildId);
+    }
+
+    internal bool guildUserExists(ulong userId, ulong guildId)
+    {
+        // Check that database is open
+        if (!isOpen) openDatabase();
+        // Checks if a user exists in the database
+        return guildUserExists(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
+    }
+
+    internal bool guildUserExists(long userId, long guildId)
+    {
+        // Check that database is open
+        if (!isOpen) openDatabase();
+        // Checks if a user exists in the database
+        var selectCmd = _connection.CreateCommand();
+        selectCmd.CommandText = $@"SELECT * FROM balances WHERE userId = {userId} AND guildId = {guildId};";
+        return selectCmd.ExecuteReader().Read();
+    }
+
+    internal void closeDatabase()
     {
         // Closes the database
         _connection.Close();
