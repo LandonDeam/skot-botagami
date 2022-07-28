@@ -25,6 +25,7 @@ namespace skot_botagami.Modules
             EmbedBuilder embed = new EmbedBuilder();
             embed.AddField($"Dealer face up", game.getDealerFirst())
                 .AddField($"Player hand ({game.playerHandValue()})", game.playerHand())
+                .WithColor(Color.Blue)
                 .WithAuthor(author: new EmbedAuthorBuilder
                 {
                     Name = $"{Context.Message.Author.Username} - Blackjack",
