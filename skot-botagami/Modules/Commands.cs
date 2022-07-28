@@ -23,7 +23,7 @@ namespace skot_botagami.Modules
             game.deal();
             EmbedBuilder embed = new EmbedBuilder();
             embed.WithTitle("Blackjack")
-                .AddField($"Dealer face up ({game.dealerHandValue()})", game.getDealerFirst())
+                .AddField($"Dealer face up", game.getDealerFirst())
                 .AddField($"Player hand ({game.playerHandValue()})", game.playerHand())
                 .WithAuthor(author: new EmbedAuthorBuilder
                 {
