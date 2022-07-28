@@ -75,21 +75,23 @@ public class Blackjack
 
     public string dealerHand()
     {
-        string temp = $"Dealer ({dealerHandValue()}): ";
+        string temp = $"Dealer (**{dealerHandValue()}**): ";
         foreach (Card card in dealer)
         {
-            temp += card.ToString() + " ";
+            temp += card.ToString() + ", ";
         }
+        temp.Substring(0, temp.Length - 2);
         return temp;
     }
 
     public string playerHand()
     {
-        string temp = $"Player ({playerHandValue()}): ";
+        string temp = $"Player (**{playerHandValue()}**): ";
         foreach (Card card in player)
         {
-            temp += card.ToString() + " ";
+            temp += card.ToString() + ", ";
         }
+        temp.Substring(0, temp.Length - 2);
         return temp;
     }
 }

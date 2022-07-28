@@ -20,7 +20,7 @@ namespace skot_botagami.Modules
         {
             Blackjack game = new Blackjack();
             game.deal();
-            await ReplyAsync($"Dealer: {game.getDealerFirst()}\n{game.playerHand()}\n\nHit?");
+            await ReplyAsync($"Dealer: {game.getDealerFirst()}\n{game.playerHand()}\nHit?");
         }
     }
 }
