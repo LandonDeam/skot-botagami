@@ -58,12 +58,12 @@ public class Blackjack
         return value;
     }
 
-    private int playerHandValue()
+    public int playerHandValue()
     {
         return getHandValue(player);
     }
 
-    private int dealerHandValue()
+    public int dealerHandValue()
     {
         return getHandValue(dealer);
     }
@@ -75,7 +75,7 @@ public class Blackjack
 
     public string dealerHand()
     {
-        string temp = $"Dealer (**{dealerHandValue()}**): ";
+        string temp = "";
         foreach (Card card in dealer)
         {
             temp += card.ToString() + ", ";
@@ -85,7 +85,7 @@ public class Blackjack
 
     public string playerHand()
     {
-        string temp = $"Player (**{playerHandValue()}**): ";
+        string temp = "";
         foreach (Card card in player)
         {
             temp += card.ToString() + ", ";

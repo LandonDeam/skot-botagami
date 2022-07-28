@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
+using Discord;
 
 namespace skot_botagami.Modules
 {
@@ -20,15 +21,17 @@ namespace skot_botagami.Modules
         {
             Blackjack game = new Blackjack();
             game.deal();
-            Discord.EmbedBuilder embed = new Discord.EmbedBuilder
+            EmbedBuilder embed = new EmbedBuilder
             {
                 Title = "Blackjack",
-                Description = $"Dealer first: {game.getDealerFirst()}\n{game.playerHand()}\nHit?"
+                Description = $"Dealer first: {game.getDealerFirst()}\n{game.playerHand()}?"
             };
-            embed.WithAuthor(author: new Discord.EmbedAuthorBuilder {Name=Context.Client.CurrentUser.Username, IconUrl= "https://media.discordapp.net/attachments/1000464257181286463/1002092083873587200/Cowboy_Bebop_Ed_Hacking_Logo_No_BG.png" });
-            Discord.Emoji hit = new Discord.Emoji("<:HIT:1002084815023124541>");
-            Discord.Emoji stand = new Discord.Emoji("<:STAND:1002085670594035772>");
-            var msg = await Context.Channel.SendMessageAsync(embed: embed.Build());
+            embed.AddField($"Dealer face up ({game.dealerHandValue()})", game.getDealerFirst());
+            embed.AddField($"Player hand ({game.playerHandValue()})", game.playerHand());
+            embed.WithAuthor(author: new EmbedAuthorBuilder {Name=Context.Client.CurrentUser.Username, IconUrl= "https://media.discordapp.net/attachments/1000464257181286463/1002092083873587200/Cowboy_Bebop_Ed_Hacking_Logo_No_BG.png" });
+            Emoji hit = new Emoji("<:HIT:1002084815023124541>");
+            Emoji stand = new Emoji("<:STAND:1002085670594035772>");
+            IMessage msg = await Context.Channel.SendMessageAsync(embed: embed.Build());
             await msg.AddReactionAsync(hit);
             await msg.AddReactionAsync(stand);
         }
