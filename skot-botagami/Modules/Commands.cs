@@ -20,13 +20,17 @@ namespace skot_botagami.Modules
         {
             Blackjack game = new Blackjack();
             game.deal();
-            Discord.EmbedBuilder msg = new Discord.EmbedBuilder
+            Discord.EmbedBuilder embed = new Discord.EmbedBuilder
             {
                 Title = "Blackjack",
                 Description = $"Dealer first: {game.getDealerFirst()}\n{game.playerHand()}\nHit?"
             };
-            msg.WithAuthor(author: new Discord.EmbedAuthorBuilder {Name=Context.Client.CurrentUser.Username, IconUrl= "https://media.discordapp.net/attachments/1000464257181286463/1002092083873587200/Cowboy_Bebop_Ed_Hacking_Logo_No_BG.png" });
-            await Context.Channel.SendMessageAsync(embed: msg.Build());
+            embed.WithAuthor(author: new Discord.EmbedAuthorBuilder {Name=Context.Client.CurrentUser.Username, IconUrl= "https://media.discordapp.net/attachments/1000464257181286463/1002092083873587200/Cowboy_Bebop_Ed_Hacking_Logo_No_BG.png" });
+            Discord.Emoji hit = new Discord.Emoji("<:HIT:1002084815023124541>");
+            Discord.Emoji stand = new Discord.Emoji("<:STAND:1002085670594035772>");
+            var msg = await Context.Channel.SendMessageAsync(embed: embed.Build());
+            await msg.AddReactionAsync(hit);
+            await msg.AddReactionAsync(stand);
         }
     }
 }
