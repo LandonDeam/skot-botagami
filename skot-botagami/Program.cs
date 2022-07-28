@@ -29,6 +29,8 @@ namespace skot_botagami
 
             _client.Log += _client_Log;
 
+            _client.ReactionAdded += ReactionEventHandler.ReactionAdded;
+
             await RegisterCommandsAsync();
 
             await _client.LoginAsync(TokenType.Bot, token);

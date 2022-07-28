@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord;
+using Discord.Addons;
 
 namespace skot_botagami.Modules
 {
@@ -22,19 +23,19 @@ namespace skot_botagami.Modules
             Blackjack game = new Blackjack();
             game.deal();
             EmbedBuilder embed = new EmbedBuilder();
-            embed.WithTitle("Blackjack")
-                .AddField($"Dealer face up", game.getDealerFirst())
+            embed.AddField($"Dealer face up", game.getDealerFirst())
                 .AddField($"Player hand ({game.playerHandValue()})", game.playerHand())
                 .WithAuthor(author: new EmbedAuthorBuilder
                 {
-                    Name = Context.Client.CurrentUser.Username,
-                    IconUrl = "https://media.discordapp.net/attachments/1000464257181286463/1002092083873587200/Cowboy_Bebop_Ed_Hacking_Logo_No_BG.png"
+                    Name = $"{Context.Message.Author.Username} - Blackjack",
+                    IconUrl = Context.Message.Author.GetAvatarUrl()
                 });
             Emoji hit = new Emoji(":HIT:1002084815023124541");
             Emoji stand = new Emoji(":STAND:1002085670594035772");
             IMessage msg = await Context.Channel.SendMessageAsync(embed: embed.Build());
             await msg.AddReactionAsync(hit);
             await msg.AddReactionAsync(stand);
+
         }
     }
 }
