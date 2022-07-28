@@ -20,6 +20,7 @@ public class Deck
                 noJokersSingle();
                 break;
             default:
+                noJokersSingle();
                 break;
         }
     }

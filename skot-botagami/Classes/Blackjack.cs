@@ -15,7 +15,7 @@ public class Blackjack
     {
         player = new List<Card>();
         dealer = new List<Card>();
-        deck = new Deck();
+        deck = new Deck("blackjack");
         deck.shuffle();
     }
 
