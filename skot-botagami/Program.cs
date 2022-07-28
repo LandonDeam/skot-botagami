@@ -36,6 +36,8 @@ namespace skot_botagami
             LoggingService log = new(_client, _commands);
 
             BalanceManager.openDatabase();
+
+            Funcs.random = new Random();
             
             await _client.StartAsync();
 

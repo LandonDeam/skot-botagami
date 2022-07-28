@@ -18,7 +18,8 @@ namespace skot_botagami.Modules
         [Command("blackjack")]
         public async Task BlackJack()
         {
-            await ReplyAsync("WIP!");
+            Blackjack game = new Blackjack();
+            await ReplyAsync($"Dealer: {game.getDealerFirst()}\n{game.playerHand()}\n\nHit?");
         }
     }
 }
