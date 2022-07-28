@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord.Commands;
 using Discord;
-using Discord.Addons;
 
 namespace skot_botagami.Modules
 {
