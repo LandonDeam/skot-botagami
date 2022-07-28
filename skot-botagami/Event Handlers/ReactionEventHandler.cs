@@ -1,5 +1,5 @@
-﻿// <copyright file="ReactionEventHandler.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+﻿// <copyright file="ReactionEventHandler.cs" company="Landon Deam">
+// Copyright (c) Landon Deam. All rights reserved.
 // </copyright>
 
 using System;
@@ -21,7 +21,7 @@ public class ReactionEventHandler
     /// <param name="message">Message the reaction is on.</param>
     /// <param name="channel">Channel the reaction is in.</param>
     /// <param name="reaction">Reaction used.</param>
-    /// <returns></returns>
+    /// <returns>Task.CompletedTask upon finishing.</returns>
     public static Task ReactionAdded(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
     {
         if (reaction == null || reaction.User.Value.IsBot)

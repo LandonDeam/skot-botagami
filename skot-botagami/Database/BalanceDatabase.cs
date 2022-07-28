@@ -44,18 +44,35 @@ public class BalanceDatabase
         this.isOpen = true;
     }
 
+    /// <summary>
+    /// Adds a guild user with the given balance to the database.
+    /// </summary>
+    /// <param name="user">Guild user to add.</param>
+    /// <param name="balance">Balance of the guild user.</param>
     internal void AddGuildUser(IGuildUser user, ulong balance)
     {
         // Add user to database
         this.AddGuildUser(user.Id, user.GuildId, balance);
     }
 
+    /// <summary>
+    /// Adds a guild user with the given balance to the database.
+    /// </summary>
+    /// <param name="userId">User to add.</param>
+    /// <param name="guildId">Guild the user is in.</param>
+    /// <param name="balance">Balance of the guild user.</param>
     internal void AddGuildUser(ulong userId, ulong guildId, ulong balance)
     {
         // Add user to database
         this.AddGuildUser(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId), Funcs.MapUlongToLong(balance));
     }
 
+    /// <summary>
+    /// Adds a guild user with the given balance to the database.
+    /// </summary>
+    /// <param name="userId">User to add.</param>
+    /// <param name="guildId">Guild the user is in.</param>
+    /// <param name="balance">Balance of the guild user.</param>
     internal void AddGuildUser(long userId, long guildId, long balance)
     {
         // Check that database is open
@@ -70,18 +87,32 @@ public class BalanceDatabase
         addGuildUserCmd.ExecuteNonQuery();
     }
 
+    /// <summary>
+    /// Adds a guild user to the database.
+    /// </summary>
+    /// <param name="user">Guild user to add.</param>
     internal void AddGuildUser(IGuildUser user)
     {
         // Add user to database
         this.AddGuildUser(user.Id, user.GuildId);
     }
 
+    /// <summary>
+    /// Adds a guild user to the database.
+    /// </summary>
+    /// <param name="userId">Guild user to add.</param>
+    /// <param name="guildId">Guild the user is in.</param>
     internal void AddGuildUser(ulong userId, ulong guildId)
     {
         // Add user to database
         this.AddGuildUser(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
     }
 
+    /// <summary>
+    /// Adds a guild user to the database.
+    /// </summary>
+    /// <param name="userId">Guild user to add.</param>
+    /// <param name="guildId">Guild the user is in.</param>
     internal void AddGuildUser(long userId, long guildId)
     {
         // Check that database is open
@@ -96,18 +127,32 @@ public class BalanceDatabase
         addGuildUserCmd.ExecuteNonQuery();
     }
 
+    /// <summary>
+    /// Removes a guild user from the database.
+    /// </summary>
+    /// <param name="user">Guild user to remove.</param>
     internal void RemoveGuildUser(IGuildUser user)
     {
         // Remove guild user from database
         this.RemoveGuildUser(user.Id, user.GuildId);
     }
 
+    /// <summary>
+    /// Removes a guild user from the database.
+    /// </summary>
+    /// <param name="userId">ID of the user to remove.</param>
+    /// <param name="guildId">Guild ID of the guild user to remove.</param>
     internal void RemoveGuildUser(ulong userId, ulong guildId)
     {
         // Remove guild user from database
         this.RemoveGuildUser(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
     }
 
+    /// <summary>
+    /// Removes a guild user from the database.
+    /// </summary>
+    /// <param name="userId">ID of the user to remove.</param>
+    /// <param name="guildId">Guild ID of the guild user to remove.</param>
     internal void RemoveGuildUser(long userId, long guildId)
     {
         // Check that database is open
@@ -122,18 +167,30 @@ public class BalanceDatabase
         delGuildUserCmd.ExecuteNonQuery();
     }
 
+    /// <summary>
+    /// Removes a user from the database.
+    /// </summary>
+    /// <param name="user">User to remove.</param>
     internal void RemoveUser(IUser user)
     {
         // Remove user from database
         this.RemoveUser(user.Id);
     }
 
+    /// <summary>
+    /// Removes a user from the database.
+    /// </summary>
+    /// <param name="userId">User to remove.</param>
     internal void RemoveUser(ulong userId)
     {
         // Remove user from database
         this.RemoveUser(Funcs.MapUlongToLong(userId));
     }
 
+    /// <summary>
+    /// Removes a user from the database.
+    /// </summary>
+    /// <param name="userId">User to remove.</param>
     internal void RemoveUser(long userId)
     {
         // Check that database is open
@@ -148,18 +205,35 @@ public class BalanceDatabase
         delUserCmd.ExecuteNonQuery();
     }
 
+    /// <summary>
+    /// Gets the balance of a guild user.
+    /// </summary>
+    /// <param name="user">Guild user to get the balance of.</param>
+    /// <returns>Balance of the guild user.</returns>
     internal ulong GetGuildUserBalance(IGuildUser user)
     {
         // Gets a users balance
         return this.GetGuildUserBalance(user.Id, user.GuildId);
     }
 
+    /// <summary>
+    /// Gets the balance of a guild user.
+    /// </summary>
+    /// <param name="userId">User ID to get the balance of.</param>
+    /// <param name="guildId">Guild ID of the guild user to get the balance of.</param>
+    /// <returns>Balance of the guild user.</returns>
     internal ulong GetGuildUserBalance(ulong userId, ulong guildId)
     {
         // Gets a users balance
         return this.GetGuildUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
     }
 
+    /// <summary>
+    /// Gets the balance of a guild user.
+    /// </summary>
+    /// <param name="userId">User ID to get the balance of.</param>
+    /// <param name="guildId">Guild ID of the guild user to get the balance of.</param>
+    /// <returns>Balance of the guild user.</returns>
     internal ulong GetGuildUserBalance(long userId, long guildId)
     {
         // Gets a users balance
@@ -168,18 +242,35 @@ public class BalanceDatabase
         return Funcs.MapLongToUlong(selectCmd.ExecuteReader().GetInt64(0));
     }
 
+    /// <summary>
+    /// Sets the balance of a guild user.
+    /// </summary>
+    /// <param name="user">User to set the balance of.</param>
+    /// <param name="balance">Balance to set the user's balance to.</param>
     internal void SetGuildUserBalance(IGuildUser user, ulong balance)
     {
         // Set a users balance
         this.SetGuildUserBalance(user.Id, user.GuildId, balance);
     }
 
+    /// <summary>
+    /// Sets the balance of a guild user.
+    /// </summary>
+    /// <param name="userId">User ID to set the balance of.</param>
+    /// <param name="guildId">Guild ID of the guild user to set the balance of.</param>
+    /// <param name="balance">Balance to set the user's balance to.</param>
     internal void SetGuildUserBalance(ulong userId, ulong guildId, ulong balance)
     {
         // Set a users balance
         this.SetGuildUserBalance(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId), Funcs.MapUlongToLong(balance));
     }
 
+    /// <summary>
+    /// Sets the balance of a guild user.
+    /// </summary>
+    /// <param name="userId">User ID to set the balance of.</param>
+    /// <param name="guildId">Guild ID of the guild user to set the balance of.</param>
+    /// <param name="balance">Balance to set the user's balance to.</param>
     internal void SetGuildUserBalance(long userId, long guildId, long balance)
     {
         // Check that database is open
@@ -194,12 +285,23 @@ public class BalanceDatabase
         setGuildUserBalanceCmd.ExecuteNonQuery();
     }
 
+    /// <summary>
+    /// Checks if a user exists in the database.
+    /// </summary>
+    /// <param name="user">Guild user to check for.</param>
+    /// <returns>true if user exists, false if they don't.</returns>
     internal bool GuildUserExists(IGuildUser user)
     {
         // Checks if a user exists in the database
         return this.GuildUserExists(user.Id, user.GuildId);
     }
 
+    /// <summary>
+    /// Checks if a user exists in the database.
+    /// </summary>
+    /// <param name="userId">ID of the user to check.</param>
+    /// <param name="guildId">Guild ID of the guild user to check.</param>
+    /// <returns>true if user exists, false if they don't.</returns>
     internal bool GuildUserExists(ulong userId, ulong guildId)
     {
         // Check that database is open
@@ -212,6 +314,12 @@ public class BalanceDatabase
         return this.GuildUserExists(Funcs.MapUlongToLong(userId), Funcs.MapUlongToLong(guildId));
     }
 
+    /// <summary>
+    /// Checks if a user exists in the database.
+    /// </summary>
+    /// <param name="userId">ID of the user to check.</param>
+    /// <param name="guildId">Guild ID of the guild user to check.</param>
+    /// <returns>true if user exists, false if they don't.</returns>
     internal bool GuildUserExists(long userId, long guildId)
     {
         // Check that database is open
@@ -226,6 +334,9 @@ public class BalanceDatabase
         return selectCmd.ExecuteReader().Read();
     }
 
+    /// <summary>
+    /// Closes the database connection.
+    /// </summary>
     internal void CloseDatabase()
     {
         // Closes the database
