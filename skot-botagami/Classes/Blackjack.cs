@@ -80,8 +80,7 @@ public class Blackjack
         {
             temp += card.ToString() + ", ";
         }
-        temp.Substring(0, temp.Length - 2);
-        return temp;
+        return temp.Substring(0, temp.Length - 2);
     }
 
     public string playerHand()
@@ -91,7 +90,6 @@ public class Blackjack
         {
             temp += card.ToString() + ", ";
         }
-        temp.Substring(0, temp.Length - 2);
-        return temp;
+        return temp.Substring(0, temp.Length - 2);
     }
 }
