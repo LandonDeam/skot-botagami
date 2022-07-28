@@ -29,8 +29,8 @@ namespace skot_botagami.Modules
             embed.AddField($"Dealer face up ({game.dealerHandValue()})", game.getDealerFirst());
             embed.AddField($"Player hand ({game.playerHandValue()})", game.playerHand());
             embed.WithAuthor(author: new EmbedAuthorBuilder {Name=Context.Client.CurrentUser.Username, IconUrl= "https://media.discordapp.net/attachments/1000464257181286463/1002092083873587200/Cowboy_Bebop_Ed_Hacking_Logo_No_BG.png" });
-            Emoji hit = new Emoji("<:HIT:1002084815023124541>");
-            Emoji stand = new Emoji("<:STAND:1002085670594035772>");
+            Emoji hit = new Emoji(":HIT:1002084815023124541");
+            Emoji stand = new Emoji(":STAND:1002085670594035772");
             IMessage msg = await Context.Channel.SendMessageAsync(embed: embed.Build());
             await msg.AddReactionAsync(hit);
             await msg.AddReactionAsync(stand);
