@@ -29,7 +29,17 @@ public class ButtonInteractionHandler
             switch (component.Data.CustomId)
             {
                 case "blackjack-hit":
-                    Blackjack.GetGame(component.Message).PlayerHit();
+                    Blackjack game = Blackjack.GetGame(component.Message);
+
+                    if (game is null)
+                    {
+                        await component.RespondAsync("Game cannot be found...");
+                    }
+                    else if (game.GetOwnerId() == component.User.Id)
+                    {
+                        game.PlayerHit();
+                    }
+
                     break;
                 case "blackjack-split":
 

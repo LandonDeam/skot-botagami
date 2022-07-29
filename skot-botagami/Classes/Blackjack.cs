@@ -26,6 +26,7 @@ public class Blackjack
     private SocketCommandContext context;
     private IUserMessage gameWindow;
     private bool playerControls;
+    private ulong playerId;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Blackjack"/> class.
@@ -48,6 +49,7 @@ public class Blackjack
         : this()
     {
         this.context = context;
+        this.playerId = context.Message.Author.Id;
     }
 
     /// <summary>
@@ -107,6 +109,15 @@ public class Blackjack
         };
 
         return builder;
+    }
+
+    /// <summary>
+    /// Gets the owner of the blackjack game's user ID.
+    /// </summary>
+    /// <returns>User ID of the owner of the blackjack game.</returns>
+    public ulong GetOwnerId()
+    {
+        return this.playerId;
     }
 
     /// <summary>
@@ -397,9 +408,9 @@ public class Blackjack
         {
             await this.gameWindow.DeleteAsync();
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine($"Error: message {gameWindow.Id} experienced an error while trying to delete.");
+            Console.WriteLine($"Error: message {this.gameWindow.Id} experienced an error while trying to delete.");
         }
 
         // Deletes the game from the gameslist
