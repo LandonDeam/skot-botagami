@@ -89,7 +89,7 @@ public class Blackjack
     /// <summary>
     /// Command to hit the player.
     /// </summary>
-    public void PlayerHit()
+    public async void PlayerHit()
     {
         // Checks if the player has control or not
         if (!this.playerControls)
@@ -98,6 +98,8 @@ public class Blackjack
         }
 
         this.player.Add(this.deck.Draw());
+
+        await this.UpdateGameWindow(false);
 
         if (this.PlayerHandValue() > 21)
         {
@@ -112,9 +114,13 @@ public class Blackjack
     /// <summary>
     /// Command to hit the dealer.
     /// </summary>
-    public void DealerHit()
+    public async void DealerHit()
     {
         this.dealer.Add(this.deck.Draw());
+
+        await this.UpdateGameWindow(true);
+
+        await Task.Delay(TimeSpan.FromSeconds(0.4));
 
         if (this.DealerHandValue() > 21)
         {
@@ -285,6 +291,17 @@ public class Blackjack
         };
 
         return builder;
+    }
+
+    /// <summary>
+    /// Updates the game window to reflect the current state of the game.
+    /// </summary>
+    /// <returns>Nothing.</returns>
+    /// <param name="showDealerHand">true to show the dealer's hand, false to only show the first card.</param>
+    private async Task UpdateGameWindow(bool showDealerHand)
+    {
+        await this.gameWindow.ModifyAsync(x => x.Embed = this.GetEmbed(showDealerHand).Build());
+        return;
     }
 
     private async void EndGame(int winStatus)
