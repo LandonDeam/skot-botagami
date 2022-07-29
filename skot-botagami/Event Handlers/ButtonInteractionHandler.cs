@@ -25,13 +25,13 @@ public class ButtonInteractionHandler
         switch (component.Data.CustomId)
         {
             case "blackjack-hit":
-                Blackjack.GetGame(await component.GetOriginalResponseAsync()).PlayerHit();
+                (await Blackjack.GetGame(await component.GetOriginalResponseAsync())).PlayerHit();
                 break;
             case "blackjack-split":
 
                 break;
             case "blackjack-stand":
-                Blackjack.GetGame(await component.GetOriginalResponseAsync()).PlayerStand();
+                (await Blackjack.GetGame(await component.GetOriginalResponseAsync())).PlayerStand();
                 break;
             default:
                 await component.RespondAsync("An error occurred: could not find custom ID of the button pressed");

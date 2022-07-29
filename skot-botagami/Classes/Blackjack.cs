@@ -54,7 +54,7 @@ public class Blackjack
     /// </summary>
     /// <param name="original">The original message to start the game.</param>
     /// <returns>The blackjack object corresponding to the message.</returns>
-    public static Blackjack GetGame(IMessage original)
+    public static async Task<Blackjack> GetGame(IMessage original)
     {
         return games.Find(x => x.context.Message.Equals(original));
     }
