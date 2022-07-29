@@ -22,6 +22,8 @@ public class ButtonInteractionHandler
     /// <returns>Task.CompletedTask upon finishing.</returns>
     public static async Task OnButtonExecution(SocketMessageComponent component)
     {
+        await component.DeferAsync();
+
         try
         {
             switch (component.Data.CustomId)
