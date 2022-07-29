@@ -399,7 +399,7 @@ public class Blackjack
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.ToString());
+            Console.WriteLine($"Error: message {gameWindow.Id} experienced an error while trying to delete.");
         }
 
         // Deletes the game from the gameslist
