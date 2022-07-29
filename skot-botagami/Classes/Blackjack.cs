@@ -56,7 +56,7 @@ public class Blackjack
     /// <returns>The blackjack object corresponding to the message.</returns>
     public static Blackjack GetGame(IMessage original)
     {
-        return games.Find(x => x.context.Message.Equals(original));
+        return games.Find(x => x.context.Message.Id == original.Id);
     }
 
     /// <summary>
