@@ -219,8 +219,10 @@ public class Blackjack
         {
             this.DealerHit();
         }
-
-        this.EndGame(this.CheckForWin());
+        else
+        {
+            this.EndGame(this.CheckForWin());
+        }
     }
 
     /// <summary>
