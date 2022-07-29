@@ -41,11 +41,34 @@ public class ButtonInteractionHandler
                     }
 
                     break;
+                case "blackjack-playagain":
+                    game = Blackjack.GetGame(component.Message);
+
+                    if (game is null)
+                    {
+                        await component.RespondAsync("Game cannot be found...");
+                    }
+                    else if (game.GetOwnerId() == component.User.Id)
+                    {
+                        game.PlayAgain();
+                    }
+
+                    break;
                 case "blackjack-split":
 
                     break;
                 case "blackjack-stand":
-                    Blackjack.GetGame(component.Message).PlayerStand();
+                    game = Blackjack.GetGame(component.Message);
+
+                    if (game is null)
+                    {
+                        await component.RespondAsync("Game cannot be found...");
+                    }
+                    else if (game.GetOwnerId() == component.User.Id)
+                    {
+                        game.PlayerStand();
+                    }
+
                     break;
                 default:
                     await component.RespondAsync("An error occurred: could not find custom ID of the button pressed");

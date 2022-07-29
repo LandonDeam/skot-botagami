@@ -121,6 +121,19 @@ public class Blackjack
     }
 
     /// <summary>
+    /// Resets the game to play again.
+    /// </summary>
+    public void PlayAgain()
+    {
+        this.playerControls = true;
+        this.player = new List<Card>();
+        this.dealer = new List<Card>();
+        this.deck = new Deck("blackjack");
+        this.deck.Shuffle();
+        this.Deal();
+    }
+
+    /// <summary>
     /// Gets the embed for showing the player their cards
     /// and that of the dealer's.
     /// </summary>
@@ -156,20 +169,22 @@ public class Blackjack
     public async Task Play(IUserMessage message)
     {
         this.gameWindow = message;
-        this.Deal();
-        await this.UpdateGameWindow(false);
+        await this.Deal();
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Blackjack"/> class.
     /// </summary>
-    public void Deal()
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public async Task Deal()
     {
         this.player.Add(this.deck.Draw());
         this.dealerFirst = this.deck.Draw();
         this.dealer.Add(this.dealerFirst);
         this.player.Add(this.deck.Draw());
         this.dealer.Add(this.deck.Draw());
+        await this.UpdateGameWindow(false);
+
         if (this.PlayerHandValue() == 21)
         {
             this.PlayerStand();
@@ -379,15 +394,17 @@ public class Blackjack
 
         this.playerControls = false;
 
-        await this.gameWindow.ModifyAsync(x => x.Embed = new EmbedBuilder
+        await this.gameWindow.ModifyAsync(x =>
         {
-            Author = new EmbedAuthorBuilder
+            x.Embed = new EmbedBuilder
             {
-                IconUrl = this.context.Message.Author.GetAvatarUrl(),
-                Name = $"{this.context.Message.Author.Username} - Blackjack",
-            },
-            Title = $"{this.context.Message.Author.Username} {loseTieWin}!",
-            Fields = new List<EmbedFieldBuilder>
+                Author = new EmbedAuthorBuilder
+                {
+                    IconUrl = this.context.Message.Author.GetAvatarUrl(),
+                    Name = $"{this.context.Message.Author.Username} - Blackjack",
+                },
+                Title = $"{this.context.Message.Author.Username} {loseTieWin}!",
+                Fields = new List<EmbedFieldBuilder>
             {
                 new EmbedFieldBuilder
                 {
@@ -400,10 +417,35 @@ public class Blackjack
                     Value = this.PlayerHand(),
                 },
             },
-        }.WithCurrentTimestamp().Build());
+            }.WithCurrentTimestamp().Build();
+            x.Components = new ComponentBuilder
+            {
+                ActionRows = new List<ActionRowBuilder>
+                {
+                    new ActionRowBuilder
+                    {
+                        Components = new List<IMessageComponent>
+                        {
+                            new ButtonBuilder
+                            {
+                                Style = ButtonStyle.Primary,
+                                CustomId = "blackjack-playagain",
+                                Label = "Play again",
+                                IsDisabled = false,
+                            }.Build(),
+                        },
+                    },
+                },
+            }.Build();
+        });
 
         // Deletes gameWindow message
         await Task.Delay(TimeSpan.FromSeconds(10));
+        if (this.playerControls)
+        {
+            return;
+        }
+
         try
         {
             await this.gameWindow.DeleteAsync();
