@@ -37,11 +37,7 @@ namespace SkotBotagami.Modules
         {
             await this.Context.Message.DeleteAsync();
             Blackjack game = new Blackjack(this);
-            IUserMessage temp = await this.ReplyAsync(
-                string.Empty,
-                false,
-                embed: game.GetEmbed(false).Build(),
-                components: Blackjack.GetButtons(false).Build());
+            IUserMessage temp = await this.ReplyAsync("Blackjack loading...");
             await game.Play(temp);
             return;
         }

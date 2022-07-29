@@ -139,11 +139,13 @@ public class Blackjack
     /// <summary>
     /// Plays the game of blackjack in the current context.
     /// </summary>
+    /// <param name="message">Original message replying to a command.</param>
     /// <returns>Task after finishing.</returns>
     public async Task Play(IUserMessage message)
     {
         this.gameWindow = message;
         this.Deal();
+        await this.UpdateGameWindow(false);
     }
 
     /// <summary>
