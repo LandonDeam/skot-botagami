@@ -199,9 +199,9 @@ public class Blackjack
     {
         this.dealer.Add(this.deck.Draw());
 
-        await this.UpdateGameWindow(true);
+        await Task.Delay(TimeSpan.FromSeconds(0.6));
 
-        await Task.Delay(TimeSpan.FromSeconds(0.8));
+        await this.UpdateGameWindow(true);
 
         if (this.DealerHandValue() > 21)
         {
