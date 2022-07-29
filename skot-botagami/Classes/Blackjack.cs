@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Discord;
 using Discord.API;
 using Discord.Commands;
@@ -26,7 +27,7 @@ public class Blackjack
     private SocketCommandContext context;
     private IUserMessage gameWindow;
     private bool playerControls;
-    private bool playAgain;
+    private Timer timer;
     private ulong playerId;
 
     /// <summary>
@@ -51,7 +52,6 @@ public class Blackjack
     {
         this.context = context;
         this.playerId = context.Message.Author.Id;
-        this.playAgain = false;
     }
 
     /// <summary>
@@ -127,7 +127,6 @@ public class Blackjack
     /// </summary>
     public async void PlayAgain()
     {
-        this.playAgain = true;
         this.playerControls = true;
         this.player = new List<Card>();
         this.dealer = new List<Card>();
@@ -173,6 +172,7 @@ public class Blackjack
     {
         this.gameWindow = message;
         await this.Deal();
+        this.TimerStart();
     }
 
     /// <summary>
@@ -204,6 +204,8 @@ public class Blackjack
         {
             return;
         }
+
+        this.TimerReset();
 
         this.player.Add(this.deck.Draw());
 
@@ -264,6 +266,8 @@ public class Blackjack
         {
             return;
         }
+
+        this.TimerReset();
 
         this.playerControls = false;
 
@@ -362,6 +366,43 @@ public class Blackjack
         return value;
     }
 
+    private void DeleteMessage(object source, ElapsedEventArgs e)
+    {
+        if (this.playerControls)
+        {
+            this.PlayerStand();
+            this.TimerReset();
+            return;
+        }
+
+        try
+        {
+            this.gameWindow.DeleteAsync();
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Error deleting message");
+        }
+
+        games.Remove(this);
+    }
+
+    private void TimerStart()
+    {
+        this.timer = new Timer(60000);
+        this.timer.Elapsed += new ElapsedEventHandler(this.DeleteMessage);
+        this.timer.Start();
+    }
+
+    /// <summary>
+    /// Resets the timer.
+    /// </summary>
+    private void TimerReset()
+    {
+        this.timer.Stop();
+        this.timer.Start();
+    }
+
     /// <summary>
     /// Updates the game window to reflect the current state of the game.
     /// </summary>
@@ -380,7 +421,6 @@ public class Blackjack
 
     private async void EndGame(int winStatus)
     {
-        this.playAgain = false;
         // Sets appropriate win status
         string loseTieWin;
         switch (winStatus)
@@ -442,25 +482,6 @@ public class Blackjack
                 },
             }.Build();
         });
-
-        // Deletes gameWindow message
-        await Task.Delay(TimeSpan.FromSeconds(10));
-        if (this.playAgain)
-        {
-            return;
-        }
-
-        try
-        {
-            await this.gameWindow.DeleteAsync();
-        }
-        catch (Exception)
-        {
-            Console.WriteLine($"Error: message {this.gameWindow.Id} experienced an error while trying to delete.");
-        }
-
-        // Deletes the game from the gameslist
-        games.Remove(this);
     }
 
     /// <summary>
