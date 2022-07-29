@@ -230,9 +230,13 @@ public class Blackjack
 
         this.playerControls = false;
 
-        if (this.DealerHandValue() == 21)
+        if (this.CheckForWin() < 2)
         {
-            this.CheckForWin();
+            this.EndGame(this.CheckForWin());
+        }
+        else
+        {
+            this.DealerHit();
         }
     }
 
