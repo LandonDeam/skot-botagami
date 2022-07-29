@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Discord;
+using Discord.API;
 using Discord.Commands;
+using Discord.Rest;
 
 /// <summary>
 /// Class used for creating and utilizing a deck of cards to play blackjack.
@@ -21,17 +23,15 @@ public class Blackjack
     private Card dealerFirst;
     private Deck deck;
     private SocketCommandContext context;
-
-    //public static Blackjack getGame(IGuildUser user)
-    //{
-
-    //}
+    private IUserMessage gameWindow;
+    private bool playerControls;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Blackjack"/> class.
     /// </summary>
     public Blackjack()
     {
+        this.playerControls = true;
         this.player = new List<Card>();
         this.dealer = new List<Card>();
         this.deck = new Deck("blackjack");
@@ -50,6 +50,16 @@ public class Blackjack
     }
 
     /// <summary>
+    /// Gets the blackjack game corresponding to the given message.
+    /// </summary>
+    /// <param name="original">The original message to start the game.</param>
+    /// <returns>The blackjack object corresponding to the message.</returns>
+    public static Blackjack GetGame(IMessage original)
+    {
+        return games.Find(x => x.context.Message.Equals(original));
+    }
+
+    /// <summary>
     /// Plays the game of blackjack in the current context.
     /// </summary>
     /// <returns>Task after finishing.</returns>
@@ -57,7 +67,7 @@ public class Blackjack
     {
         this.Deal();
 
-        IMessage msg = await this.context.Channel.SendMessageAsync(
+        this.gameWindow = await this.context.Channel.SendMessageAsync(
             string.Empty,
             false,
             embed: this.GetEmbed(false).Build(),
@@ -81,7 +91,22 @@ public class Blackjack
     /// </summary>
     public void PlayerHit()
     {
+        // Checks if the player has control or not
+        if (!this.playerControls)
+        {
+            return;
+        }
+
         this.player.Add(this.deck.Draw());
+
+        if (this.PlayerHandValue() > 21)
+        {
+            this.EndGame(0);
+        }
+        else if (this.PlayerHandValue() == 21)
+        {
+            this.PlayerStand();
+        }
     }
 
     /// <summary>
@@ -90,6 +115,23 @@ public class Blackjack
     public void DealerHit()
     {
         this.dealer.Add(this.deck.Draw());
+
+        if (this.DealerHandValue() > 21)
+        {
+            this.EndGame(2);
+        }
+        else if (this.CheckForWin() == 0)
+        {
+            this.EndGame(0);
+        }
+        else if (
+            (this.CheckForWin() == 1 && this.DealerHandValue() < 17) ||
+            (this.CheckForWin() == 2))
+        {
+            this.DealerHit();
+        }
+
+        this.EndGame(this.CheckForWin());
     }
 
     /// <summary>
@@ -97,11 +139,17 @@ public class Blackjack
     /// </summary>
     public void PlayerStand()
     {
-        while (this.DealerHandValue() < 21 &&
-            (this.DealerHandValue() < this.PlayerHandValue() ||
-            (this.DealerHandValue() == this.PlayerHandValue() && this.DealerHandValue() < 12)))
+        // Checks if the player has control or not
+        if (!this.playerControls)
         {
-            this.DealerHit();
+            return;
+        }
+
+        this.playerControls = false;
+
+        if (this.DealerHandValue() == 21)
+        {
+            this.CheckForWin();
         }
     }
 
@@ -215,13 +263,13 @@ public class Blackjack
                         }.Build(),
 
                         // Split button
-                        new ButtonBuilder
-                        {
-                            Style = ButtonStyle.Primary,
-                            Label = "Split",
-                            CustomId = "blackjack-split",
-                            IsDisabled = split,
-                        }.Build(),
+//                        new ButtonBuilder
+//                        {
+//                            Style = ButtonStyle.Primary,
+//                            Label = "Split",
+//                            CustomId = "blackjack-split",
+//                            IsDisabled = split,
+//                        }.Build(),
 
                         // Stand button
                         new ButtonBuilder
@@ -239,6 +287,82 @@ public class Blackjack
         return builder;
     }
 
+    private async void EndGame(int winStatus)
+    {
+        // Sets appropriate win status
+        string loseTieWin;
+        switch (winStatus)
+        {
+            case 0:
+                loseTieWin = "lost";
+                break;
+            case 1:
+                loseTieWin = "tied";
+                break;
+            default:
+                loseTieWin = "won";
+                break;
+        }
+
+        this.playerControls = false;
+
+        await this.gameWindow.ModifyAsync(x => x.Embed = new EmbedBuilder
+        {
+            Author = new EmbedAuthorBuilder
+            {
+                IconUrl = this.context.Message.Author.GetAvatarUrl(),
+                Name = $"{this.context.Message.Author.Username} - Blackjack",
+            },
+            Title = $"{this.context.Message.Author.Username} {loseTieWin}!",
+            Fields = new List<EmbedFieldBuilder>
+            {
+                new EmbedFieldBuilder
+                {
+                    Name = $"Dealer hand (**{this.DealerHandValue()}**)",
+                    Value = this.DealerHand(),
+                },
+                new EmbedFieldBuilder
+                {
+                    Name = $"Player Hand (**{this.PlayerHandValue()}**)",
+                    Value = this.PlayerHand(),
+                },
+            },
+        }.WithCurrentTimestamp().Build());
+
+        // Deletes gameWindow message
+        await Task.Delay(TimeSpan.FromSeconds(10));
+        await this.gameWindow.DeleteAsync();
+
+        // Deletes the game from the gameslist
+        games.Remove(this);
+    }
+
+    /// <summary>
+    /// Checks if the player has won, tied, or lost.
+    /// </summary>
+    /// <returns>0 for player lose, 1 for tie, 2 for player win.</returns>
+    private int CheckForWin()
+    {
+        if (this.PlayerHandValue() > 21)
+        {
+            return 0;
+        }
+        else if (this.DealerHandValue() > 21)
+        {
+            return 2;
+        }
+        else if (this.PlayerHandValue() > this.DealerHandValue())
+        {
+            return 2;
+        }
+        else if (this.PlayerHandValue() < this.DealerHandValue())
+        {
+            return 0;
+        }
+
+        return 1;
+    }
+
     /// <summary>
     /// Gets the embed for showing the player their cards
     /// and that of the dealer's.
@@ -251,7 +375,7 @@ public class Blackjack
     {
         EmbedBuilder embed = new EmbedBuilder();
         embed.AddField(
-            showDealerHand ? $"Dealder hand (**{this.DealerHandValue()}**)" : $"Dealer face up",
+            showDealerHand ? $"Dealer hand (**{this.DealerHandValue()}**)" : $"Dealer face up",
             showDealerHand ? this.DealerHand() : this.GetDealerFirst())
         .AddField(
             $"Player hand (**{this.PlayerHandValue()}**)",
