@@ -78,7 +78,7 @@ public class Blackjack
                         // Hit button
                         new ButtonBuilder
                         {
-                            Style = ButtonStyle.Success,
+                            Style = ButtonStyle.Primary,
                             Label = "Hit",
                             CustomId = "blackjack-hit",
                             IsDisabled = false,
@@ -96,7 +96,7 @@ public class Blackjack
                         // Stand button
                         new ButtonBuilder
                         {
-                            Style = ButtonStyle.Danger,
+                            Style = ButtonStyle.Primary,
                             Label = "Stand",
                             CustomId = "blackjack-stand",
                             IsDisabled = false,
