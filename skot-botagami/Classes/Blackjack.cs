@@ -55,9 +55,9 @@ public class Blackjack
     /// </summary>
     /// <param name="original">The original message to start the game.</param>
     /// <returns>The blackjack object corresponding to the message.</returns>
-    public static List<Blackjack> GetGame(SocketUserMessage original)
+    public static Blackjack GetGame(SocketUserMessage original)
     {
-        return games.FindAll(x => x.context.Message.Id == original.Id);
+        return games.Find(x => x.gameWindow.Id == original.Id);
     }
 
     /// <summary>
