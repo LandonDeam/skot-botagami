@@ -391,7 +391,14 @@ public class Blackjack
 
         // Deletes gameWindow message
         await Task.Delay(TimeSpan.FromSeconds(10));
-        await this.gameWindow.DeleteAsync();
+        try
+        {
+            await this.gameWindow.DeleteAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.ToString());
+        }
 
         // Deletes the game from the gameslist
         games.Remove(this);
