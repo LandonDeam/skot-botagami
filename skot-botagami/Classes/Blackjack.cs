@@ -197,6 +197,8 @@ public class Blackjack
     /// </summary>
     public async void DealerHit()
     {
+        await this.UpdateGameWindow(true);
+
         this.dealer.Add(this.deck.Draw());
 
         await Task.Delay(TimeSpan.FromSeconds(0.6));
