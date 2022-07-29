@@ -22,20 +22,28 @@ public class ButtonInteractionHandler
     /// <returns>Task.CompletedTask upon finishing.</returns>
     public static async Task OnButtonExecution(SocketMessageComponent component)
     {
-        switch (component.Data.CustomId)
+        try
         {
-            case "blackjack-hit":
-                Blackjack.GetGame(component.Message).PlayerHit();
-                break;
-            case "blackjack-split":
+            switch (component.Data.CustomId)
+            {
+                case "blackjack-hit":
+                    Blackjack.GetGame(component.Message).PlayerHit();
+                    break;
+                case "blackjack-split":
 
-                break;
-            case "blackjack-stand":
-                Blackjack.GetGame(component.Message).PlayerStand();
-                break;
-            default:
-                await component.RespondAsync("An error occurred: could not find custom ID of the button pressed");
-                break;
+                    break;
+                case "blackjack-stand":
+                    Blackjack.GetGame(component.Message).PlayerStand();
+                    break;
+                default:
+                    await component.RespondAsync("An error occurred: could not find custom ID of the button pressed");
+                    break;
+            }
+        }
+        catch (Exception e)
+        {
+            await component.RespondAsync("An unknown error occurred");
+            Console.WriteLine(e.ToString());
         }
 
         return;
