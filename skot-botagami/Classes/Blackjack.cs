@@ -26,6 +26,7 @@ public class Blackjack
     private SocketCommandContext context;
     private IUserMessage gameWindow;
     private bool playerControls;
+    private bool playAgain;
     private ulong playerId;
 
     /// <summary>
@@ -50,6 +51,7 @@ public class Blackjack
     {
         this.context = context;
         this.playerId = context.Message.Author.Id;
+        this.playAgain = false;
     }
 
     /// <summary>
@@ -123,14 +125,15 @@ public class Blackjack
     /// <summary>
     /// Resets the game to play again.
     /// </summary>
-    public void PlayAgain()
+    public async void PlayAgain()
     {
+        this.playAgain = true;
         this.playerControls = true;
         this.player = new List<Card>();
         this.dealer = new List<Card>();
         this.deck = new Deck("blackjack");
         this.deck.Shuffle();
-        this.Deal();
+        await this.Deal();
     }
 
     /// <summary>
@@ -377,6 +380,7 @@ public class Blackjack
 
     private async void EndGame(int winStatus)
     {
+        this.playAgain = false;
         // Sets appropriate win status
         string loseTieWin;
         switch (winStatus)
@@ -441,7 +445,7 @@ public class Blackjack
 
         // Deletes gameWindow message
         await Task.Delay(TimeSpan.FromSeconds(10));
-        if (this.playerControls)
+        if (this.playAgain)
         {
             return;
         }
