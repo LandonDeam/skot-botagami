@@ -89,7 +89,8 @@ public class Blackjack
     /// <summary>
     /// Command to hit the player.
     /// </summary>
-    public async void PlayerHit()
+    /// <returns>Nothing.</returns>
+    public async Task PlayerHit()
     {
         // Checks if the player has control or not
         if (!this.playerControls)
@@ -109,6 +110,8 @@ public class Blackjack
         {
             this.PlayerStand();
         }
+
+        return;
     }
 
     /// <summary>
@@ -143,7 +146,8 @@ public class Blackjack
     /// <summary>
     /// Command to let the player stand.
     /// </summary>
-    public void PlayerStand()
+    /// <returns>Nothing.</returns>
+    public async Task PlayerStand()
     {
         // Checks if the player has control or not
         if (!this.playerControls)
