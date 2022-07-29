@@ -54,7 +54,7 @@ public class Blackjack
     /// </summary>
     /// <param name="original">The original message to start the game.</param>
     /// <returns>The blackjack object corresponding to the message.</returns>
-    public static async Task<Blackjack> GetGame(IMessage original)
+    public static Blackjack GetGame(IMessage original)
     {
         return games.Find(x => x.context.Message.Equals(original));
     }
@@ -89,8 +89,7 @@ public class Blackjack
     /// <summary>
     /// Command to hit the player.
     /// </summary>
-    /// <returns>Nothing.</returns>
-    public async Task PlayerHit()
+    public async void PlayerHit()
     {
         // Checks if the player has control or not
         if (!this.playerControls)
@@ -146,8 +145,7 @@ public class Blackjack
     /// <summary>
     /// Command to let the player stand.
     /// </summary>
-    /// <returns>Nothing.</returns>
-    public async Task PlayerStand()
+    public void PlayerStand()
     {
         // Checks if the player has control or not
         if (!this.playerControls)
