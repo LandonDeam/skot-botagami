@@ -22,7 +22,7 @@ public class Blackjack
     private List<Card> dealer;
     private Card dealerFirst;
     private Deck deck;
-    private SocketCommandContext context;
+    private SkotBotagami.Modules.Commands context;
     private IUserMessage gameWindow;
     private bool playerControls;
 
@@ -43,7 +43,7 @@ public class Blackjack
     /// Initializes a new instance of the <see cref="Blackjack"/> class.
     /// </summary>
     /// <param name="context">Context of the game being played.</param>
-    public Blackjack(SocketCommandContext context)
+    public Blackjack(SkotBotagami.Modules.Commands context)
         : this()
     {
         this.context = context;
@@ -56,22 +56,94 @@ public class Blackjack
     /// <returns>The blackjack object corresponding to the message.</returns>
     public static Blackjack GetGame(IMessage original)
     {
-        return games.Find(x => x.context.Message.Id == original.Id);
+        return games.Find(x => x.context.Context.Message.Id == original.Id);
+    }
+
+    /// <summary>
+    /// Gets the component builder for the button selections.
+    /// </summary>
+    /// <param name="split">Whether to allow the use of the split button or not.</param>
+    /// <returns>The component builder for the button selections.</returns>
+    public static ComponentBuilder GetButtons(bool split)
+    {
+        ComponentBuilder builder = new ComponentBuilder
+        {
+            ActionRows = new List<ActionRowBuilder>
+            {
+                new ActionRowBuilder
+                {
+                    Components = new List<IMessageComponent>
+                    {
+                        // Hit button
+                        new ButtonBuilder
+                        {
+                            Style = ButtonStyle.Success,
+                            Label = "Hit",
+                            CustomId = "blackjack-hit",
+                            IsDisabled = false,
+                        }.Build(),
+
+                        // Split button
+//                        new ButtonBuilder
+//                        {
+//                            Style = ButtonStyle.Primary,
+//                            Label = "Split",
+//                            CustomId = "blackjack-split",
+//                            IsDisabled = split,
+//                        }.Build(),
+
+                        // Stand button
+                        new ButtonBuilder
+                        {
+                            Style = ButtonStyle.Danger,
+                            Label = "Stand",
+                            CustomId = "blackjack-stand",
+                            IsDisabled = false,
+                        }.Build(),
+                    },
+                },
+            },
+        };
+
+        return builder;
+    }
+
+    /// <summary>
+    /// Gets the embed for showing the player their cards
+    /// and that of the dealer's.
+    /// </summary>
+    /// <param name="showDealerHand">true to embed the dealer's whole hand,
+    /// false to embed just the first card.</param>
+    /// <returns>The embed for showing the player their cards
+    /// and that of the dealer's.</returns>
+    public EmbedBuilder GetEmbed(bool showDealerHand)
+    {
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.AddField(
+            showDealerHand ? $"Dealer hand (**{this.DealerHandValue()}**)" : $"Dealer face up",
+            showDealerHand ? this.DealerHand() : this.GetDealerFirst())
+        .AddField(
+            $"Player hand (**{this.PlayerHandValue()}**)",
+            this.PlayerHand())
+        .WithColor(Color.Blue)
+            .WithAuthor(author: new EmbedAuthorBuilder
+            {
+                Name = $"{this.context.Context.Message.Author.Username} - Blackjack",
+                IconUrl = this.context.Context.Message.Author.GetAvatarUrl(),
+            })
+        .WithCurrentTimestamp();
+
+        return embed;
     }
 
     /// <summary>
     /// Plays the game of blackjack in the current context.
     /// </summary>
     /// <returns>Task after finishing.</returns>
-    public async Task Play()
+    public async Task Play(IUserMessage message)
     {
+        this.gameWindow = message;
         this.Deal();
-
-        this.gameWindow = await this.context.Channel.SendMessageAsync(
-            string.Empty,
-            false,
-            embed: this.GetEmbed(false).Build(),
-            components: GetButtons(false).Build());
     }
 
     /// <summary>
@@ -247,55 +319,6 @@ public class Blackjack
     }
 
     /// <summary>
-    /// Gets the component builder for the button selections.
-    /// </summary>
-    /// <param name="split">Whether to allow the use of the split button or not.</param>
-    /// <returns>The component builder for the button selections.</returns>
-    private static ComponentBuilder GetButtons(bool split)
-    {
-        ComponentBuilder builder = new ComponentBuilder
-        {
-            ActionRows = new List<ActionRowBuilder>
-            {
-                new ActionRowBuilder
-                {
-                    Components = new List<IMessageComponent>
-                    {
-                        // Hit button
-                        new ButtonBuilder
-                        {
-                            Style = ButtonStyle.Success,
-                            Label = "Hit",
-                            CustomId = "blackjack-hit",
-                            IsDisabled = false,
-                        }.Build(),
-
-                        // Split button
-//                        new ButtonBuilder
-//                        {
-//                            Style = ButtonStyle.Primary,
-//                            Label = "Split",
-//                            CustomId = "blackjack-split",
-//                            IsDisabled = split,
-//                        }.Build(),
-
-                        // Stand button
-                        new ButtonBuilder
-                        {
-                            Style = ButtonStyle.Danger,
-                            Label = "Stand",
-                            CustomId = "blackjack-stand",
-                            IsDisabled = false,
-                        }.Build(),
-                    },
-                },
-            },
-        };
-
-        return builder;
-    }
-
-    /// <summary>
     /// Updates the game window to reflect the current state of the game.
     /// </summary>
     /// <returns>Nothing.</returns>
@@ -329,10 +352,10 @@ public class Blackjack
         {
             Author = new EmbedAuthorBuilder
             {
-                IconUrl = this.context.Message.Author.GetAvatarUrl(),
-                Name = $"{this.context.Message.Author.Username} - Blackjack",
+                IconUrl = this.context.Context.Message.Author.GetAvatarUrl(),
+                Name = $"{this.context.Context.Message.Author.Username} - Blackjack",
             },
-            Title = $"{this.context.Message.Author.Username} {loseTieWin}!",
+            Title = $"{this.context.Context.Message.Author.Username} {loseTieWin}!",
             Fields = new List<EmbedFieldBuilder>
             {
                 new EmbedFieldBuilder
@@ -380,33 +403,5 @@ public class Blackjack
         }
 
         return 1;
-    }
-
-    /// <summary>
-    /// Gets the embed for showing the player their cards
-    /// and that of the dealer's.
-    /// </summary>
-    /// <param name="showDealerHand">true to embed the dealer's whole hand,
-    /// false to embed just the first card.</param>
-    /// <returns>The embed for showing the player their cards
-    /// and that of the dealer's.</returns>
-    private EmbedBuilder GetEmbed(bool showDealerHand)
-    {
-        EmbedBuilder embed = new EmbedBuilder();
-        embed.AddField(
-            showDealerHand ? $"Dealer hand (**{this.DealerHandValue()}**)" : $"Dealer face up",
-            showDealerHand ? this.DealerHand() : this.GetDealerFirst())
-        .AddField(
-            $"Player hand (**{this.PlayerHandValue()}**)",
-            this.PlayerHand())
-        .WithColor(Color.Blue)
-            .WithAuthor(author: new EmbedAuthorBuilder
-            {
-                Name = $"{this.context.Message.Author.Username} - Blackjack",
-                IconUrl = this.context.Message.Author.GetAvatarUrl(),
-            })
-        .WithCurrentTimestamp();
-
-        return embed;
     }
 }

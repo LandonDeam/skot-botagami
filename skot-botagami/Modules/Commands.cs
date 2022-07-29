@@ -36,8 +36,13 @@ namespace SkotBotagami.Modules
         public async Task BlackJack()
         {
             await this.Context.Message.DeleteAsync();
-            Blackjack game = new Blackjack(this.Context);
-            await game.Play();
+            Blackjack game = new Blackjack(this);
+            IUserMessage temp = await this.ReplyAsync(
+                string.Empty,
+                false,
+                embed: game.GetEmbed(false).Build(),
+                components: Blackjack.GetButtons(false).Build());
+            await game.Play(temp);
             return;
         }
     }
