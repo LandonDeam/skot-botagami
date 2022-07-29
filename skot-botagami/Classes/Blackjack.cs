@@ -159,6 +159,10 @@ public class Blackjack
         this.dealer.Add(this.dealerFirst);
         this.player.Add(this.deck.Draw());
         this.dealer.Add(this.deck.Draw());
+        if (this.PlayerHandValue() == 21)
+        {
+            this.PlayerStand();
+        }
     }
 
     /// <summary>
@@ -197,7 +201,7 @@ public class Blackjack
 
         await this.UpdateGameWindow(true);
 
-        await Task.Delay(TimeSpan.FromSeconds(0.4));
+        await Task.Delay(TimeSpan.FromSeconds(0.8));
 
         if (this.DealerHandValue() > 21)
         {
