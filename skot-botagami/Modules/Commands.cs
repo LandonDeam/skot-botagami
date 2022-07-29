@@ -35,6 +35,7 @@ namespace SkotBotagami.Modules
         [Command("blackjack")]
         public async Task BlackJack()
         {
+            await this.Context.Message.DeleteAsync();
             Blackjack game = new Blackjack(this.Context);
             await game.Play();
             return;

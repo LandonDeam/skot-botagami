@@ -45,6 +45,8 @@ namespace SkotBotagami
 
             this.client.ReactionAdded += ReactionEventHandler.ReactionAdded;
 
+            this.client.ButtonExecuted += ButtonInteractionHandler.OnButtonExecution;
+
             await this.RegisterCommandsAsync();
 
             await this.client.LoginAsync(TokenType.Bot, token);

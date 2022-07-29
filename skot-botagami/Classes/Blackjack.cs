@@ -15,11 +15,17 @@ using Discord.Commands;
 /// </summary>
 public class Blackjack
 {
+    private static List<Blackjack> games = new List<Blackjack>();
     private List<Card> player;
     private List<Card> dealer;
     private Card dealerFirst;
     private Deck deck;
     private SocketCommandContext context;
+
+    //public static Blackjack getGame(IGuildUser user)
+    //{
+
+    //}
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Blackjack"/> class.
@@ -30,6 +36,7 @@ public class Blackjack
         this.dealer = new List<Card>();
         this.deck = new Deck("blackjack");
         this.deck.Shuffle();
+        games.Add(this);
     }
 
     /// <summary>
@@ -244,10 +251,10 @@ public class Blackjack
     {
         EmbedBuilder embed = new EmbedBuilder();
         embed.AddField(
-            showDealerHand ? $"Dealder hand ({this.DealerHandValue()})" : $"Dealer face up",
+            showDealerHand ? $"Dealder hand (**{this.DealerHandValue()}**)" : $"Dealer face up",
             showDealerHand ? this.DealerHand() : this.GetDealerFirst())
         .AddField(
-            $"Player hand ({this.PlayerHandValue()})",
+            $"Player hand (**{this.PlayerHandValue()}**)",
             this.PlayerHand())
         .WithColor(Color.Blue)
             .WithAuthor(author: new EmbedAuthorBuilder
