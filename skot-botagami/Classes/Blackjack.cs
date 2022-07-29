@@ -11,6 +11,7 @@ using Discord;
 using Discord.API;
 using Discord.Commands;
 using Discord.Rest;
+using Discord.WebSocket;
 
 /// <summary>
 /// Class used for creating and utilizing a deck of cards to play blackjack.
@@ -22,7 +23,7 @@ public class Blackjack
     private List<Card> dealer;
     private Card dealerFirst;
     private Deck deck;
-    private SkotBotagami.Modules.Commands context;
+    private SocketCommandContext context;
     private IUserMessage gameWindow;
     private bool playerControls;
 
@@ -43,7 +44,7 @@ public class Blackjack
     /// Initializes a new instance of the <see cref="Blackjack"/> class.
     /// </summary>
     /// <param name="context">Context of the game being played.</param>
-    public Blackjack(SkotBotagami.Modules.Commands context)
+    public Blackjack(SocketCommandContext context)
         : this()
     {
         this.context = context;
@@ -54,9 +55,9 @@ public class Blackjack
     /// </summary>
     /// <param name="original">The original message to start the game.</param>
     /// <returns>The blackjack object corresponding to the message.</returns>
-    public static Blackjack GetGame(IMessage original)
+    public static Blackjack GetGame(SocketUserMessage original)
     {
-        return games.Find(x => x.context.Context.Message.Id == original.Id);
+        return games.Find(x => x.context.Message.Id == original.Id);
     }
 
     /// <summary>
@@ -128,8 +129,8 @@ public class Blackjack
         .WithColor(Color.Blue)
             .WithAuthor(author: new EmbedAuthorBuilder
             {
-                Name = $"{this.context.Context.Message.Author.Username} - Blackjack",
-                IconUrl = this.context.Context.Message.Author.GetAvatarUrl(),
+                Name = $"{this.context.Message.Author.Username} - Blackjack",
+                IconUrl = this.context.Message.Author.GetAvatarUrl(),
             })
         .WithCurrentTimestamp();
 
@@ -359,10 +360,10 @@ public class Blackjack
         {
             Author = new EmbedAuthorBuilder
             {
-                IconUrl = this.context.Context.Message.Author.GetAvatarUrl(),
-                Name = $"{this.context.Context.Message.Author.Username} - Blackjack",
+                IconUrl = this.context.Message.Author.GetAvatarUrl(),
+                Name = $"{this.context.Message.Author.Username} - Blackjack",
             },
-            Title = $"{this.context.Context.Message.Author.Username} {loseTieWin}!",
+            Title = $"{this.context.Message.Author.Username} {loseTieWin}!",
             Fields = new List<EmbedFieldBuilder>
             {
                 new EmbedFieldBuilder
