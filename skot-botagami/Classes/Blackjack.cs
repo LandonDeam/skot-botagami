@@ -327,7 +327,12 @@ public class Blackjack
     /// <param name="showDealerHand">true to show the dealer's hand, false to only show the first card.</param>
     private async Task UpdateGameWindow(bool showDealerHand)
     {
-        await this.gameWindow.ModifyAsync(x => x.Embed = this.GetEmbed(showDealerHand).Build());
+        await this.gameWindow.ModifyAsync(x =>
+        {
+            x.Content = string.Empty;
+            x.Embed = this.GetEmbed(showDealerHand).Build();
+            x.Components = GetButtons(false).Build();
+        });
         return;
     }
 
