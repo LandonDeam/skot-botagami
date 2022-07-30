@@ -366,6 +366,12 @@ public class Blackjack
         return value;
     }
 
+    /// <summary>
+    /// Deletes the message associated with this object after no interaction
+    /// for 60 seconds.
+    /// </summary>
+    /// <param name="source">Source of the call.</param>
+    /// <param name="e">Any event args associated with the elapsed event.</param>
     private void DeleteMessage(object source, ElapsedEventArgs e)
     {
         if (this.playerControls)
@@ -387,6 +393,9 @@ public class Blackjack
         games.Remove(this);
     }
 
+    /// <summary>
+    /// Starts the timer.
+    /// </summary>
     private void TimerStart()
     {
         this.timer = new Timer(60000);
