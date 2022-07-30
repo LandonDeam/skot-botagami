@@ -458,18 +458,19 @@ public class Blackjack
                 },
                 Title = $"{this.context.Message.Author.Username} {loseTieWin}!",
                 Fields = new List<EmbedFieldBuilder>
-            {
-                new EmbedFieldBuilder
                 {
-                    Name = $"Dealer hand (**{this.DealerHandValue()}**)",
-                    Value = this.DealerHand(),
+                    new EmbedFieldBuilder
+                    {
+                        Name = $"Dealer hand (**{this.DealerHandValue()}**)",
+                        Value = this.DealerHand(),
+                    },
+                    new EmbedFieldBuilder
+                    {
+                        Name = $"Player Hand (**{this.PlayerHandValue()}**)",
+                        Value = this.PlayerHand(),
+                    },
                 },
-                new EmbedFieldBuilder
-                {
-                    Name = $"Player Hand (**{this.PlayerHandValue()}**)",
-                    Value = this.PlayerHand(),
-                },
-            },
+                Color = (winStatus < 2) ? (winStatus == 0) ? Color.Red : Color.LightGrey : Color.Green,
             }.WithCurrentTimestamp().Build();
             x.Components = new ComponentBuilder
             {
