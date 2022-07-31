@@ -408,6 +408,11 @@ public class Blackjack
     /// </summary>
     private void TimerReset()
     {
+        if (this.timer is null)
+        {
+            this.TimerStart();
+        }
+
         this.timer.Stop();
         this.timer.Start();
     }
