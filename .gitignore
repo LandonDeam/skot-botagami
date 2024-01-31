@@ -402,3 +402,6 @@ FodyWeavers.xsd
 
 # Database files
 *.db
+
+#Environment Variables
+.env

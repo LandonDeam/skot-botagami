@@ -4,247 +4,185 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 
-/// <summary>
-/// Class used for extending off of the IGuildUser class for personal use.
-/// </summary>
 public class GuildUser : IGuildUser
 {
-    private IGuildUser baseUser;
-    private ulong balance;
+    public DateTimeOffset? JoinedAt => throw new NotImplementedException();
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GuildUser"/> class.
-    /// </summary>
-    /// <param name="user">The guild user to use for constructing the object.</param>
-    public GuildUser(IGuildUser user)
-    {
-        // Initialize IGuildUser interface
-        this.baseUser = user;
+    public string DisplayName => throw new NotImplementedException();
 
-        this.balance = BalanceManager.GetGuildUserBalance(user);
-    }
+    public string Nickname => throw new NotImplementedException();
 
-    // Implementation of the base IGuildUser interface
+    public string DisplayAvatarId => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public DateTimeOffset? JoinedAt => this.baseUser.JoinedAt;
+    public string GuildAvatarId => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public string DisplayName => this.baseUser.DisplayName;
+    public GuildPermissions GuildPermissions => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public string Nickname => this.baseUser.Nickname;
+    public IGuild Guild => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public string DisplayAvatarId => this.baseUser.DisplayAvatarId;
+    public ulong GuildId => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public string GuildAvatarId => this.baseUser.GuildAvatarId;
+    public DateTimeOffset? PremiumSince => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public GuildPermissions GuildPermissions => this.baseUser.GuildPermissions;
+    public IReadOnlyCollection<ulong> RoleIds => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public IGuild Guild => this.baseUser.Guild;
+    public bool? IsPending => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public ulong GuildId => this.baseUser.GuildId;
+    public int Hierarchy => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public DateTimeOffset? PremiumSince => this.baseUser.PremiumSince;
+    public DateTimeOffset? TimedOutUntil => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public IReadOnlyCollection<ulong> RoleIds => this.baseUser.RoleIds;
+    public GuildUserFlags Flags => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool? IsPending => this.baseUser.IsPending;
+    public string AvatarId => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public int Hierarchy => this.baseUser.Hierarchy;
+    public string Discriminator => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public DateTimeOffset? TimedOutUntil => this.baseUser.TimedOutUntil;
+    public ushort DiscriminatorValue => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public string AvatarId => this.baseUser.AvatarId;
+    public bool IsBot => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public string Discriminator => this.baseUser.Discriminator;
+    public bool IsWebhook => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public ushort DiscriminatorValue => this.baseUser.DiscriminatorValue;
+    public string Username => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool IsBot => this.baseUser.IsBot;
+    public UserProperties? PublicFlags => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool IsWebhook => this.baseUser.IsWebhook;
+    public string GlobalName => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public string Username => this.baseUser.Username;
+    public string AvatarDecorationHash => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public UserProperties? PublicFlags => this.baseUser.PublicFlags;
+    public ulong? AvatarDecorationSkuId => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public DateTimeOffset CreatedAt => this.baseUser.CreatedAt;
+    public DateTimeOffset CreatedAt => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public ulong Id => this.baseUser.Id;
+    public ulong Id => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public string Mention => this.baseUser.Mention;
+    public string Mention => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public UserStatus Status => this.baseUser.Status;
+    public UserStatus Status => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public IReadOnlyCollection<ClientType> ActiveClients => this.baseUser.ActiveClients;
+    public IReadOnlyCollection<ClientType> ActiveClients => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public IReadOnlyCollection<IActivity> Activities => this.baseUser.Activities;
+    public IReadOnlyCollection<IActivity> Activities => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool IsDeafened => this.baseUser.IsDeafened;
+    public bool IsDeafened => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool IsMuted => this.baseUser.IsMuted;
+    public bool IsMuted => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool IsSelfDeafened => this.baseUser.IsSelfDeafened;
+    public bool IsSelfDeafened => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool IsSelfMuted => this.baseUser.IsSelfMuted;
+    public bool IsSelfMuted => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool IsSuppressed => this.baseUser.IsSuppressed;
+    public bool IsSuppressed => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public IVoiceChannel VoiceChannel => this.baseUser.VoiceChannel;
+    public IVoiceChannel VoiceChannel => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public string VoiceSessionId => this.baseUser.VoiceSessionId;
+    public string VoiceSessionId => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool IsStreaming => this.baseUser.IsStreaming;
+    public bool IsStreaming => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public bool IsVideoing => this.baseUser.IsVideoing;
+    public bool IsVideoing => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public DateTimeOffset? RequestToSpeakTimestamp => this.baseUser.RequestToSpeakTimestamp;
+    public DateTimeOffset? RequestToSpeakTimestamp => throw new NotImplementedException();
 
-    /// <inheritdoc/>
     public Task AddRoleAsync(ulong roleId, RequestOptions options = null)
     {
-        return this.baseUser.AddRoleAsync(roleId, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task AddRoleAsync(IRole role, RequestOptions options = null)
     {
-        return this.baseUser.AddRoleAsync(role, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task AddRolesAsync(IEnumerable<ulong> roleIds, RequestOptions options = null)
     {
-        return this.baseUser.AddRolesAsync(roleIds, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task AddRolesAsync(IEnumerable<IRole> roles, RequestOptions options = null)
     {
-        return this.baseUser.AddRolesAsync(roles, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task<IDMChannel> CreateDMChannelAsync(RequestOptions options = null)
     {
-        return this.baseUser.CreateDMChannelAsync(options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
+    public string GetAvatarDecorationUrl()
+    {
+        throw new NotImplementedException();
+    }
+
     public string GetAvatarUrl(ImageFormat format = ImageFormat.Auto, ushort size = 128)
     {
-        return this.baseUser.GetAvatarUrl(format, size);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public string GetDefaultAvatarUrl()
     {
-        return this.baseUser.GetDefaultAvatarUrl();
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public string GetDisplayAvatarUrl(ImageFormat format = ImageFormat.Auto, ushort size = 128)
     {
-        return this.baseUser.GetDisplayAvatarUrl(format, size);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public string GetGuildAvatarUrl(ImageFormat format = ImageFormat.Auto, ushort size = 128)
     {
-        return this.baseUser.GetGuildAvatarUrl(format, size);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public ChannelPermissions GetPermissions(IGuildChannel channel)
     {
-        return this.baseUser.GetPermissions(channel);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task KickAsync(string reason = null, RequestOptions options = null)
     {
-        return this.baseUser.KickAsync(reason, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task ModifyAsync(Action<GuildUserProperties> func, RequestOptions options = null)
     {
-        return this.baseUser.ModifyAsync(func, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task RemoveRoleAsync(ulong roleId, RequestOptions options = null)
     {
-        return this.baseUser.RemoveRoleAsync(roleId, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task RemoveRoleAsync(IRole role, RequestOptions options = null)
     {
-        return this.baseUser.RemoveRoleAsync(role, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task RemoveRolesAsync(IEnumerable<ulong> roleIds, RequestOptions options = null)
     {
-        return this.baseUser.RemoveRolesAsync(roleIds, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task RemoveRolesAsync(IEnumerable<IRole> roles, RequestOptions options = null)
     {
-        return this.baseUser.RemoveRolesAsync(roles, options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task RemoveTimeOutAsync(RequestOptions options = null)
     {
-        return this.baseUser.RemoveTimeOutAsync(options);
+        throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
     public Task SetTimeOutAsync(TimeSpan span, RequestOptions options = null)
     {
-        return this.baseUser.SetTimeOutAsync(span, options);
+        throw new NotImplementedException();
     }
+
 }

@@ -12,7 +12,7 @@ namespace SkotBotagami
     using System.Text;
     using System.Threading.Tasks;
     using Discord;
-    using Discord.Commands;
+    using Discord.Interactions;
     using Discord.WebSocket;
 
     /// <summary>
@@ -22,7 +22,7 @@ namespace SkotBotagami
     {
         private readonly IServiceProvider services;
         private DiscordSocketClient client;
-        private CommandService commands;
+        private InteractionService commands;
 
         /// <summary>
         /// Main function to start the bot.
@@ -37,7 +37,8 @@ namespace SkotBotagami
         public async Task RunBotAsync()
         {
             this.client = new DiscordSocketClient();
-            this.commands = new CommandService();
+
+            this.commands = new InteractionService(this.client);
 
             string token = Environment.GetEnvironmentVariable("TOKEN");
 
@@ -48,6 +49,8 @@ namespace SkotBotagami
             this.client.ButtonExecuted += ButtonInteractionHandler.OnButtonExecution;
 
             await this.RegisterCommandsAsync();
+
+            await this.commands.AddModuleAsync<Modules.Commands>(services: null);
 
             await this.client.LoginAsync(TokenType.Bot, token);
 
@@ -61,14 +64,14 @@ namespace SkotBotagami
 
             await Task.Delay(-1);
         }
-
+        
         /// <summary>
         /// Registers the commands.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task RegisterCommandsAsync()
         {
-            this.client.MessageReceived += this.HandleCommandAsync;
+            this.client.SlashCommandExecuted += this.SlashCommandHandler;
             await this.commands.AddModulesAsync(Assembly.GetEntryAssembly(), this.services);
         }
 
@@ -78,24 +81,15 @@ namespace SkotBotagami
             return Task.CompletedTask;
         }
 
-        private async Task HandleCommandAsync(SocketMessage arg)
+        private async Task SlashCommandHandler(SocketSlashCommand command)
         {
-            SocketUserMessage message = arg as SocketUserMessage;
-            SocketCommandContext context = new SocketCommandContext(this.client, message);
-            if (message.Author.IsBot)
+            if (command.User.IsBot)
             {
                 return;
             }
 
-            int argPos = 0;
-            if (message.HasStringPrefix(".", ref argPos))
-            {
-                IResult result = await this.commands.ExecuteAsync(context, argPos, this.services);
-                if (!result.IsSuccess)
-                {
-                    Console.WriteLine(result.ErrorReason);
-                }
-            }
+            await this.commands.ExecuteCommandAsync((IInteractionContext)command, this.services);
         }
+
     }
 }

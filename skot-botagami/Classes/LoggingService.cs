@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 
 /// <summary>
@@ -19,7 +20,7 @@ public class LoggingService
     /// </summary>
     /// <param name="client">Client to be used for logging.</param>
     /// <param name="command">Command service to use to call the logging service.</param>
-    public LoggingService(DiscordSocketClient client, CommandService command)
+    public LoggingService(DiscordSocketClient client, InteractionService command)
     {
         client.Log += this.LogAsync;
         command.Log += this.LogAsync;

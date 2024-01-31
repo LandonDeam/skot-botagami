@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Discord;
 using Discord.API;
-using Discord.Commands;
+using Discord.Interactions;
 using Discord.Rest;
 using Discord.WebSocket;
 
@@ -24,7 +24,7 @@ public class Blackjack
     private List<Card> dealer;
     private Card dealerFirst;
     private Deck deck;
-    private SocketCommandContext context;
+    private SocketInteractionContext context;
     private IUserMessage gameWindow;
     private bool playerControls;
     private Timer timer;
@@ -47,11 +47,11 @@ public class Blackjack
     /// Initializes a new instance of the <see cref="Blackjack"/> class.
     /// </summary>
     /// <param name="context">Context of the game being played.</param>
-    public Blackjack(SocketCommandContext context)
+    public Blackjack(SocketInteractionContext context)
         : this()
     {
         this.context = context;
-        this.playerId = context.Message.Author.Id;
+        this.playerId = context.User.Id;
     }
 
     /// <summary>
@@ -155,8 +155,8 @@ public class Blackjack
         .WithColor(Color.Blue)
             .WithAuthor(author: new EmbedAuthorBuilder
             {
-                Name = $"{this.context.Message.Author.Username} - Blackjack",
-                IconUrl = this.context.Message.Author.GetAvatarUrl(),
+                Name = $"{this.context.User.Username} - Blackjack",
+                IconUrl = this.context.User.GetAvatarUrl(),
             })
         .WithCurrentTimestamp();
 
@@ -245,7 +245,7 @@ public class Blackjack
             this.EndGame(0);
         }
         else if (
-            (this.CheckForWin() == 1 && this.DealerHandValue() < 17) ||
+            (this.CheckForWin() == 1 && this.DealerHandValue() <= 17) ||
             (this.CheckForWin() == 2))
         {
             this.DealerHit();
@@ -443,7 +443,7 @@ public class Blackjack
                 loseTieWin = "lost";
                 break;
             case 1:
-                loseTieWin = "tied";
+                loseTieWin = "push";
                 break;
             default:
                 loseTieWin = "won";
@@ -458,10 +458,10 @@ public class Blackjack
             {
                 Author = new EmbedAuthorBuilder
                 {
-                    IconUrl = this.context.Message.Author.GetAvatarUrl(),
-                    Name = $"{this.context.Message.Author.Username} - Blackjack",
+                    IconUrl = this.context.User.GetAvatarUrl(),
+                    Name = $"{this.context.User.Username} - Blackjack",
                 },
-                Title = $"{this.context.Message.Author.Username} {loseTieWin}!",
+                Title = $"{this.context.User.Username} {loseTieWin}!",
                 Fields = new List<EmbedFieldBuilder>
                 {
                     new EmbedFieldBuilder
